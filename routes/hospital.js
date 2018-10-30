@@ -36,15 +36,15 @@ app.get('/', (req, res, next) => {
 //=====================================================================
 //Crear un nuevo hospital
 //=====================================================================
-app.post('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
-    var id = req.params.id;
+    //  var id = req.params.id;
     var body = req.body;
 
     var hospital = new Hospital({
         nombre: body.nombre,
         img: body.img,
-        usuario: id
+        usuario: body.id
     });
 
     hospital.save((err, hospitalGuardado) => {
@@ -59,8 +59,8 @@ app.post('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
         res.status(201).json({
             ok: true,
-            hospital: hospitalGuardado
-                // hospitaltoken: req.hospital
+            hospital: hospitalGuardado,
+            usuariotoken: req.usuario
         });
 
     });
@@ -69,10 +69,10 @@ app.post('/:id', mdAutenticacion.verificaToken, (req, res) => {
 //=====================================================================
 //Actualizar un  hospital
 //=====================================================================
-app.put('/:uid/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
-    var id = req.params.id;
-    var uid = req.params.uid;
+    var id = req.params.id; // este id luego puedo pasarlo por body.id
+    // var uid = req.params.uid;
     var body = req.body;
 
 
@@ -106,7 +106,7 @@ app.put('/:uid/:id', mdAutenticacion.verificaToken, (req, res) => {
             res.status(200).json({
                 ok: true,
                 hospital: hospitalGuardado,
-                usuarioadmin: uid
+                usuariotoken: req.usuario
             });
         });
     });
@@ -116,10 +116,10 @@ app.put('/:uid/:id', mdAutenticacion.verificaToken, (req, res) => {
 //Borrar un usuario por el ID
 //=====================================================================
 
-app.delete('/:uid/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
-    var uid = req.params.uid;
-    var id = req.params.id;
+    // var uid = req.params.uid;
+    var id = req.params.id; // este id luego puedo pasarlo por body.id
 
     Hospital.findByIdAndRemove(id, (err, hospitalBorrado) => {
 
@@ -138,11 +138,11 @@ app.delete('/:uid/:id', mdAutenticacion.verificaToken, (req, res) => {
                 errors: { message: 'no existe un hospital con ese ID' }
             });
         }
-        hospitalBorrado.password = ':)';
+
         res.status(200).json({
             ok: true,
             hospital: hospitalBorrado,
-            usuarioadmin: uid
+            usuariotoken: req.usuario
         });
 
     });

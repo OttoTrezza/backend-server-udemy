@@ -72,7 +72,8 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
             usuarioGuardado.password = ':)';
             res.status(200).json({
                 ok: true,
-                usuario: usuarioGuardado
+                usuario: usuarioGuardado,
+                usuariotoken: req.usuario
             });
         });
     });
@@ -143,7 +144,8 @@ app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
         usuarioBorrado.password = ':)';
         res.status(200).json({
             ok: true,
-            usuario: usuarioBorrado
+            usuario: usuarioBorrado,
+            usuariotoken: req.usuario
         });
 
     });

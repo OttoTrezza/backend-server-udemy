@@ -10,4 +10,6 @@ var hospitalSchema = new Schema({
     usuario: { type: Schema.Types.ObjectId, ref: 'Usuario' }
 }, { collection: 'hospitales' });
 
+hospitalSchema.plugin(uniqueValidator, { message: 'El {PATH} debe de ser unico' });
+
 module.exports = mongoose.model('Hospital', hospitalSchema);
