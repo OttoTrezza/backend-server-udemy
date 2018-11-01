@@ -1,6 +1,5 @@
 var express = require('express');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+
 
 var mdAutenticacion = require('../middlewares/autenticacion');
 // var SEED = require('../config/config').SEED;
@@ -14,21 +13,42 @@ var Medico = require('../models/medico');
 // =====================================================================
 
 app.get('/', (req, res) => {
-    Medico.find({}, (err, medicos) => {
 
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                mensaje: 'Error cargando medicos',
-                errors: err
+    var desde = req.query.desde || 0;
+    desde = Number(desde);
+
+    Medico.find({})
+
+    .skip(desde)
+        .limit(5)
+        .populate('usuario', 'nombre email')
+        .populate('hospital', 'nombre')
+        .exec(
+
+            (err, medicos) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: 'Error cargando medicos',
+                        errors: err
+                    });
+                }
+                Medico.count({}, (err, conteo) => {
+
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            mensaje: 'Error contando medicos',
+                            errors: err
+                        });
+                    }
+                    res.status(200).json({
+                        ok: true,
+                        medicos: medicos,
+                        total: conteo
+                    });
+                })
             });
-        }
-        res.status(200).json({
-            ok: true,
-            medicos: medicos
-        });
-    });
-
 });
 
 // =====================================================================
@@ -40,13 +60,11 @@ app.get('/', (req, res) => {
 
 app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
-    var id = req.body.usuario;
     var body = req.body;
 
     var medico = new Medico({
         nombre: body.nombre,
-        img: body.img,
-        usuario: id,
+        usuario: req.usuario._id,
         hospital: body.hospital
     });
     // este ID debe ser el del usuario administrador
