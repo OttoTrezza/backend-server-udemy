@@ -1,4 +1,4 @@
-# Backend-Server
+﻿# Backend-Server
 
 Este es el codigo necesario para establecer el backend 
 conectado a mongo usando Mongoose.
@@ -14,3 +14,6 @@ npm instal
 
 Existe un pequeño ejercicio para probar la autenticacion
 de Google en un Front-End basico pero funcional.
+
+para levantar mongoDB en consola...
+"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe" --dbpath="c:\data\db"
