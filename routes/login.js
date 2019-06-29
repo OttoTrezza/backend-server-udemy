@@ -204,7 +204,9 @@ function obtenerMenu(ROLE) {
                 { titulo: 'ProgressBar', url: '/progress' },
                 { titulo: 'Gráficas', url: '/graficas1' },
                 { titulo: 'Promesas', url: '/promesas' },
-                { titulo: 'RxJs', url: '/rxjs' }
+                { titulo: 'RxJs', url: '/rxjs' },
+                { titulo: 'Mensajes', url: '/mensajes' }
+
             ]
         },
         {

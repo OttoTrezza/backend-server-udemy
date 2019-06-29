@@ -1,13 +1,18 @@
-// Requires..librerias para que funcione algo
-var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-
+var Server = require('./classes/server');
+var cors = require('cors');
 //inicializar variables
-var app = express();
 
+const server = Server.default.instance;
+//Body Parser ----MIDLEWARE
+// parse application/x-www-form-urlencoded
+server.app.use(bodyParser.urlencoded({ extended: true }));
+server.app.use(bodyParser.json());
 // CORS
-app.use(function(req, res, next) {
+// CORS
+server.app.use(cors({ origin: true, credentials: true }));
+server.app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
@@ -15,10 +20,13 @@ app.use(function(req, res, next) {
 });
 
 
-//Body Parser ----MIDLEWARE
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+
+// socket
+// BodyParser
+// server.app.use(bodyParser.urlencoded({ extended: true }));
+// server.app.use(bodyParser.json());
+
+
 
 //Importar rutas
 var appRoutes = require('./routes/app');
@@ -28,15 +36,27 @@ var hospitalRoutes = require('./routes/hospital');
 var medicoRoutes = require('./routes/medico');
 var uploadRoutes = require('./routes/upload');
 var imagenesRoutes = require('./routes/imagenes');
-var busquedaRoutes = require('./routes/busqueda');
+var mensajesRoutes = require('./routes/mensajes');
 
-// //Coneccion a la base de datos
-// mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', { useNewUrlParser: true }, (err, res) => {
-//     if (err) throw err;
-//     console.log('Base de datos:\x1b[32m%s\x1b[0m', 'online');
-// });
+
+// Rutas
+//middlewear
+server.app.use('/medico', medicoRoutes);
+server.app.use('/hospital', hospitalRoutes);
+server.app.use('/usuario', usuarioRoutes);
+server.app.use('/login', loginRoutes);
+server.app.use('/upload', uploadRoutes);
+server.app.use('/img', imagenesRoutes);
+server.app.use('/mensajes', mensajesRoutes);
+
+server.app.use('/', appRoutes);
+
+
+
+
+
 //Coneccion a la base de datos
-mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
+mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
     console.log('Base de datos:\x1b[32m%s\x1b[0m', 'online');
 });
@@ -52,18 +72,21 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) =
 
 // Rutas
 //middlewear
-app.use('/usuario', usuarioRoutes);
-app.use('/hospital', hospitalRoutes);
-app.use('/medico', medicoRoutes);
-app.use('/login', loginRoutes);
-app.use('/busqueda', busquedaRoutes);
-app.use('/upload', uploadRoutes);
-app.use('/img', imagenesRoutes);
+// app.use('/medico', medicoRoutes);
+// app.use('/hospital', hospitalRoutes);
+// app.use('/usuario', usuarioRoutes);
+// app.use('/login', loginRoutes);
+// app.use('/upload', uploadRoutes);
+// app.use('/img', imagenesRoutes);
+// app.use('/mensajes', mensajesRoutes);
 
-app.use('/', appRoutes);
+// app.use('/', appRoutes);
 
 // escuchar peticiones
 
-app.listen(3000, () => {
-    console.log('Express server,Puerto 3000:\x1b[32m%s\x1b[0m', 'online');
+server.start(() => {
+    console.log(`Servidor corriendo en el puerto ${ server.port }`);
 });
+// app.listen(3000, () => {
+//     console.log('Express server,Puerto 3000:\x1b[32m%s\x1b[0m', 'online');
+// });
