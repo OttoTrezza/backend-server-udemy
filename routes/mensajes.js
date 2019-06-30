@@ -1,11 +1,17 @@
 var express = require('express');
 var app = express();
+var server = require('../classes/server');
+var socket = require('../sockets/socket');
+// var router = express.Router();
 
 
-app.get('/', (req, res, next) => {
-    res.status(200).json({
+var Usuario = require('../models/usuario');
+
+// router.get()....
+app.get('/mensajes', (req, res) => {
+    res.json({
         ok: true,
-        mensaje: 'peticion realizada correctamente'
+        mensaje: 'Todo esta bien!!'
     });
 });
 app.post('/mensajes', (req, res) => {
@@ -61,4 +67,5 @@ app.get('/usuarios/detalle', (req, res) => {
         clientes: socket.usuariosConectados.getLista()
     });
 });
+// exports.default = router;
 module.exports = app;

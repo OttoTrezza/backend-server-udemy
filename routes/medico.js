@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
                         medicos: medicos,
                         total: conteo
                     });
-                })
+                });
             });
 });
 
