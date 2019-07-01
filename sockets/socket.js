@@ -4,8 +4,12 @@ var usuario = require("../models/usuario");
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
-    usuario = new Usuario(cliente.id);
-    exports.usuariosConectados.agregar(usuario);
+    cliente.on('connect', () => {
+        usuario = new Usuario(cliente.id);
+        console.log('Cliente desconectado', usuario);
+        exports.usuariosConectados.agregar(usuario);
+        io.emit('cliente Conectado', exports.usuariosConectados.getLista());
+    });
 };
 exports.desconectar = (cliente, io) => {
     cliente.on('disconnect', () => {

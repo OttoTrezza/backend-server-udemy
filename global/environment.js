@@ -1,1 +1,1 @@
-module.exports.SERVER_PORT = 4200;
+module.exports.SERVER_PORT = 3000;

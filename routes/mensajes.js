@@ -6,7 +6,7 @@ var socket = require('../sockets/socket');
 
 
 var Usuario = require('../models/usuario');
-
+// const server = Server.default.instance;
 // router.get()....
 app.get('/mensajes', (req, res) => {
     res.json({
@@ -18,7 +18,7 @@ app.post('/mensajes', (req, res) => {
     var cuerpo = req.body.cuerpo;
     var de = req.body.de;
     var payload = { cuerpo, de };
-    server = server.default.instance;
+    // server = Server.default.instance;
     server.io.emit('mensaje-nuevo', payload);
     res.json({
         ok: true,
@@ -35,7 +35,7 @@ app.post('/mensajes/:id', (req, res) => {
         de,
         cuerpo
     };
-    // server = server;
+    // server = Server.default.instance;
     server.io.in(id).emit('mensaje-privado', payload);
     res.json({
         ok: true,
@@ -46,7 +46,7 @@ app.post('/mensajes/:id', (req, res) => {
 });
 // Servicio para obtener todos los IDs de los usuarios
 app.get('/usuarios', (req, res) => {
-    // const server = server;
+    // server = Server.default.instance;
     server.io.clients((err, clientes) => {
         if (err) {
             return res.json({

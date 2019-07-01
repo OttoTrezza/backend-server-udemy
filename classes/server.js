@@ -8,7 +8,7 @@ class Server {
         this.app = express();
         this.port = 3000;
         this.httpServer = new http.Server(this.app);
-        this.io = socketIO(this.httpServer);
+        this.io = socketIO(this.httpServer, ''); // sacar segundo parametro..Options
         this.escucharSockets();
     }
     static get instance() {
@@ -20,7 +20,7 @@ class Server {
             // Conectar cliente
             socket.conectarCliente(cliente, this.io);
             // Configurar usuario
-            // socket.configurarUsuario(cliente, this.io);
+            socket.configurarUsuario(cliente, this.io);
             // Obtener usuarios activos
             socket.obtenerUsuarios(cliente, this.io);
             // Mensajes
@@ -30,7 +30,7 @@ class Server {
         });
     }
     start(callback) {
-        this.app.listen(this.port, callback);
+        this.app.listen(this.port, this.httpServer, callback);
     }
 }
 exports.default = Server;
