@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
                         errors: err
                     });
                 }
-                Hospital.count({}, (err, conteo) => {
+                Hospital.countDocuments({}, (err, conteo) => {
 
                     if (err) {
                         return res.status(500).json({
@@ -144,6 +144,7 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
                     errors: err
                 });
             }
+            //  console.log('Todo bien');
             res.status(200).json({
                 ok: true,
                 hospital: hospitalGuardado,

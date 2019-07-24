@@ -3,41 +3,42 @@ class UsuariosLista {
             this.lista = [];
         }
         // Agregar un usuario
-    agregar(usuario) {
-        this.lista.push(usuario);
+    agregar(usuarioIO) {
+        this.lista.push(usuarioIO);
         console.log(this.lista);
-        return usuario;
+        return usuarioIO;
     }
     actualizarNombre(id, nombre, sala) {
-            for (let usuario of this.lista) {
-                if (usuario.id === id) {
-                    usuario.nombre = nombre;
+            for (let usuarioIO of this.lista) {
+                if (usuarioIO.id === id) {
+                    usuarioIO.nombre = nombre;
                     if (!sala)
-                        usuario.sala = 'sin-sala';
+                        usuarioIO.sala = 'sin-sala';
                     else
-                        usuario.sala = sala;
+                        usuarioIO.sala = sala;
                     break;
                 }
             }
-            console.log('===== Actualizando usuario ====');
+            console.log('===== Actualizando usuarioIO ====');
             console.log(this.lista);
         }
         // Obtener lista de usuarios
     getLista() {
-            return this.lista.filter(usuario => usuario.nombre !== 'sin-nombre');
+            console.log('getLista');
+            return this.lista.filter(usuarioIO => usuarioIO.nombre !== 'sin-nombre');
         }
         // Obtener un usuario
     getUsuario(id) {
-            return this.lista.find(usuario => usuario.id === id);
+            return this.lista.find(usuarioIO => usuarioIO.id === id);
         }
         // Obtener usuario en una sala en particular
     getUsuariosEnSala(sala) {
-            return this.lista.filter(usuario => usuario.sala === sala);
+            return this.lista.filter(usuarioIO => usuarioIO.sala === sala);
         }
         // Borrar Usuario
     borrarUsuario(id) {
         const tempUsuario = this.getUsuario(id);
-        this.lista = this.lista.filter(usuario => usuario.id !== id);
+        this.lista = this.lista.filter(usuarioIO => usuarioIO.id !== id);
         return tempUsuario;
     }
 }

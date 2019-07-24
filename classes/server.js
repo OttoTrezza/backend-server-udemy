@@ -2,35 +2,46 @@ var express = require('express');
 var SERVER_PORT = require('../global/environment');
 var socketIO = require('socket.io');
 var http = require('http');
-var socket = require('../sockets/socket');
+const socket = require('../sockets/socket');
+
+
 class Server {
+
     constructor() {
         this.app = express();
         this.port = 3000;
         this.httpServer = new http.Server(this.app);
-        this.io = socketIO(this.httpServer, ''); // sacar segundo parametro..Options
+        this.io = socketIO(this.httpServer); // sacar segundo parametro..Options
         this.escucharSockets();
     }
     static get instance() {
-        return this._intance || (this._intance = new this());
+        return this._instance || (this._instance = new this());
     }
+
     escucharSockets() {
         console.log('Escuchando conexiones - sockets');
         this.io.on('connection', cliente => {
-            // Conectar cliente
-            socket.conectarCliente(cliente, this.io);
+
+            console.log('Cliente conectado', cliente.id);
+            // Conectar usuario
+            socket.conectarCliente(cliente, io);
+            // Entrar chat
+            socket.entrarChat(cliente, io);
             // Configurar usuario
-            socket.configurarUsuario(cliente, this.io);
+            socket.configurarUsuario(cliente, io);
             // Obtener usuarios activos
-            socket.obtenerUsuarios(cliente, this.io);
+            socket.obtenerUsuarios(cliente, io);
             // Mensajes
-            socket.mensaje(cliente, this.io);
+            socket.mensaje(cliente, io);
             // Desconectar
-            socket.desconectar(cliente, this.io);
+            socket.desconectar(cliente, io);
+            //   cliente.on('disconect', () => {
+            //        console.log('Cliente Desconectado');
+            //    });
         });
     }
     start(callback) {
-        this.app.listen(this.port, this.httpServer, callback);
+        this.httpServer.listen(this.port, callback);
     }
 }
 exports.default = Server;

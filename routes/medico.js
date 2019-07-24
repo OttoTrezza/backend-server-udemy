@@ -2,10 +2,10 @@ var express = require('express');
 
 
 var mdAutenticacion = require('../middlewares/autenticacion');
-// var SEED = require('../config/config').SEED;
+var SEED = require('../config/config').SEED;
 
 var app = express();
-
+var httpServer = require('../classes/server');
 var Medico = require('../models/medico');
 
 // =====================================================================
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
                         errors: err
                     });
                 }
-                Medico.count({}, (err, conteo) => {
+                Medico.countDocuments({}, (err, conteo) => {
 
                     if (err) {
                         return res.status(500).json({

@@ -1,17 +1,39 @@
 var express = require('express');
-var app = express();
-var server = require('../classes/server');
-var socket = require('../sockets/socket');
-// var router = express.Router();
-
-
+var app = require('express')();
+// var http = require('http').createServer(app);
+// var httpServer = require('../classes/server');
+var socketIO = require('socket.io');
+// var socketIO = require('socket.io');
+io = socketIO();
 var Usuario = require('../models/usuario');
 // const server = Server.default.instance;
 // router.get()....
-app.get('/mensajes', (req, res) => {
+
+app.get('/', (req, res) => {
+
+    // server = Server.default.instance;
+    io.emit('connect', this.usuario);
+    console.log('User connect');
+    res.send('Hello World');
     res.json({
         ok: true,
-        mensaje: 'Todo esta bien!!'
+
+    });
+    //console.log(payload);
+    // res.status(200).json({
+    //     ok: true,
+    //     de: payload.de,
+    //     mensaje: payload.mensaje
+    // });
+});
+
+
+app.get('/mensajes', (req, res) => {
+
+    res.status(200).json({
+        ok: true,
+        de: payload.de,
+        mensaje: payload.mensaje
     });
 });
 app.post('/mensajes', (req, res) => {
@@ -19,15 +41,20 @@ app.post('/mensajes', (req, res) => {
     var de = req.body.de;
     var payload = { cuerpo, de };
     // server = Server.default.instance;
-    server.io.emit('mensaje-nuevo', payload);
+    io.emit('mensaje-nuevo', payload);
     res.json({
         ok: true,
         cuerpo,
         de
     });
     console.log(payload);
+    res.status(200).json({
+        ok: true,
+        de: payload.de,
+        mensaje: payload.mensaje
+    });
 });
-app.post('/mensajes/:id', (req, res) => {
+app.post('/:id', (req, res) => {
     const cuerpo = req.body.cuerpo;
     const de = req.body.de;
     const id = req.params.id;
@@ -67,5 +94,6 @@ app.get('/usuarios/detalle', (req, res) => {
         clientes: socket.usuariosConectados.getLista()
     });
 });
+
 // exports.default = router;
 module.exports = app;

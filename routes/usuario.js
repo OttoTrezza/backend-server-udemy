@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
                         errors: err
                     });
                 }
-                Usuario.count({}, (err, conteo) => {
+                Usuario.countDocuments({}, (err, conteo) => {
 
                     if (err) {
                         return res.status(500).json({
