@@ -16,7 +16,7 @@ exports.conectarCliente = (cliente, io) => {
         if (!this.usuariosConectados.getUsuario(usuarioIO.id)) {
             this.usuariosConectados.agregar(usuarioIO);
         }
-        cliente.join(usuarioIO.sala);
+        //  cliente.join(usuarioIO.sala);
         usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
         //  res.io.emit('obtener-usuarios', this.usuarios);
     });
@@ -36,7 +36,7 @@ exports.entrarChat = (cliente, io) => {
             this.usuariosConectados.agregar(usuarioIO);
         }
         cliente.join(usuarioIO.sala);
-        usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioIO.sala);
         // console.log('usuarioConectadoComo', this.usuario, this.usuarios);
         // this.obtenerUsuarios();
         // io.sockets.emit('usuarios-activos', usuarios);

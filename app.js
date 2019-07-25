@@ -64,6 +64,7 @@ server.app.use('/', appRoutes);
 
 //Coneccion a la base de datos
 mongoose.set('useCreateIndex', true);
+// mongodb+srv://Marsupion:<password>@cluster0-9xz8q.mongodb.net/test?retryWrites=true&w=majority
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
     console.log('Base de datos:\x1b[32m%s\x1b[0m', 'online');

@@ -38,11 +38,13 @@ process.env.SEED = process.env.SEED || 'este_es_el_seed_desarrollo';
 let urlDB;
 if (process.env.NODE_ENV === 'dev') {
 
-    urlDB = 'mongodb://localhost:27017/test';
+    urlDB = 'mongodb+srv://Marsupion:3noqHdazT3Qk94T9@cluster0-9xz8q.mongodb.net/test';
+    // mongodb://localhost:27017/test
 } else {
     //    mongodb+srv://Marsupion:<password>@cluster0-9xz8q.mongodb.net/test?retryWrites=true&w=majority
     // mongodb+srv://marsupion:<password>@cluster0-9xz8q.mongodb.net mongodb+srv://Mars
-    urlDB = 'mongodb+srv://Marsupion:3noqHdazT3Qk94T9@cluster0-9xz8q.mongodb.net/test';
+    // mongodb+srv://Marsupion:<password>@cluster0-9xz8q.mongodb.net/test?retryWrites=true&w=majority
+    urlDB = 'mongodb+srv://Marsupion:3noqHdazT3Qk94T9@cluster0-9xz8q.mongodb.net/test?retryWrites=true&w=majority';
 }
 
 process.env.URLDB = urlDB;
