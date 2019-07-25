@@ -1,5 +1,5 @@
 var express = require('express');
-var SERVER_PORT = require('../global/environment');
+require('../config/config');
 var socketIO = require('socket.io');
 var http = require('http');
 const socket = require('../sockets/socket');
@@ -9,7 +9,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = 3000;
+        this.port = process.env.PORT;
         this.httpServer = new http.Server(this.app);
         this.io = socketIO(this.httpServer); // sacar segundo parametro..Options
         this.escucharSockets();

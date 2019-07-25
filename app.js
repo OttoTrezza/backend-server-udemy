@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var Server = require('./classes/server');
 var cors = require('cors');
 var appRoutes = require('./routes/app');
-
-
+require('./config/config');
+const path = require('path');
 //Importar rutas
 
 var usuarioRoutes = require('./routes/usuario');
@@ -22,10 +22,11 @@ var busquedaRoutes = require('./routes/busqueda');
 var server = Server.default.instance;
 //Body Parser ----MIDLEWARE
 // parse application/x-www-form-urlencoded
-server.app.use(bodyParser.urlencoded({ extended: true }));
+server.app.use(bodyParser.urlencoded({ extended: false }));
 server.app.use(bodyParser.json());
 // CORS
 // CORS
+// app.use(express.static(path.resolve(__dirname, '../public')));
 server.app.use(cors({ origin: true, credentials: true }));
 server.app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -63,7 +64,7 @@ server.app.use('/', appRoutes);
 
 //Coneccion a la base de datos
 mongoose.set('useCreateIndex', true);
-mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', { useNewUrlParser: true }, (err, res) => {
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
     console.log('Base de datos:\x1b[32m%s\x1b[0m', 'online');
 });
@@ -76,24 +77,10 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', { useNewUrlP
 // app.use('/uploads', serveIndex(__dirname + '/uploads'));
 
 
-
-// Rutas
-//middlewear
-// app.use('/medico', medicoRoutes);
-// app.use('/hospital', hospitalRoutes);
-// app.use('/usuario', usuarioRoutes);
-// app.use('/login', loginRoutes);
-// app.use('/upload', uploadRoutes);
-// app.use('/img', imagenesRoutes);
-// app.use('/mensajes', mensajesRoutes);
-
-// app.use('/', appRoutes);
-
-// escuchar peticiones
-
-server.start(() => {
+server.start(() => { // Me quedo escuchando el puerto 80!
     console.log(`Servidor corriendo en el puerto ${ server.port }`);
+    console.log(`Escuchando puerto: 3000.`);
 });
 // app.listen(3000, () => {
 //     console.log('Express server,Puerto 3000:\x1b[32m%s\x1b[0m', 'online');
-// });sssss
+// });

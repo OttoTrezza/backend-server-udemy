@@ -134,6 +134,7 @@ exports.configurarUsuario = (cliente, io) => {
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
     cliente.on('obtener-usuarios', () => {
+        usuarios = this.usuariosConectados.getUsuariosEnSala('Juegos');
         cliente.emit('usuarios-activos', usuarios);
     });
 };
