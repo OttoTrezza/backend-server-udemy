@@ -79,7 +79,7 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
 
 
 server.start(() => { // Me quedo escuchando el puerto 80!
-    console.log(`Servidor corriendo en el puerto ${ server.port }`);
+    console.log(`Servidor corriendo en el puerto ${ process.env.PORT }`);
     console.log(`Escuchando puerto: 3000.`);
 });
 // app.listen(3000, () => {
