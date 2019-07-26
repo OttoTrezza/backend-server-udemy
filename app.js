@@ -57,8 +57,8 @@ server.app.use('/img', imagenesRoutes);
 server.app.use('/mensajes', mensajesRoutes);
 server.app.use('/busqueda', busquedaRoutes);
 
-server.app.use(express.static(publicPath));
-// server.app.use('/', appRoutes);
+// server.app.use(express.static(publicPath));
+server.app.use('/', appRoutes);
 
 
 

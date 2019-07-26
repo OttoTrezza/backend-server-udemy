@@ -40,8 +40,17 @@ class Server {
             //    });
         });
     }
+    static init(puerto) {
+        return new Server(puerto);
+    }
+    publicFolder() {
+
+        const publicPath = path.resolve(__dirname, '../public');
+        this.server.app.use(express.static(publicPath));
+    }
     start(callback) {
         this.httpServer.listen(this.port, callback);
+        this.publicFolder();
     }
 }
 exports.default = Server;
