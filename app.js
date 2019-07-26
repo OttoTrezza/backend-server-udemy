@@ -5,6 +5,7 @@ var cors = require('cors');
 var appRoutes = require('./routes/app');
 require('./config/config');
 const path = require('path');
+const publicPath = path.resolve(__dirname, '../public');
 //Importar rutas
 
 var usuarioRoutes = require('./routes/usuario');
@@ -56,7 +57,8 @@ server.app.use('/img', imagenesRoutes);
 server.app.use('/mensajes', mensajesRoutes);
 server.app.use('/busqueda', busquedaRoutes);
 
-server.app.use('/', appRoutes);
+server.app.use(express.static(publicPath));
+// server.app.use('/', appRoutes);
 
 
 
