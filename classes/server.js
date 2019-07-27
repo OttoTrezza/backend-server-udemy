@@ -46,7 +46,7 @@ class Server {
 
     publicFolder() {
         const publicPath = path.resolve(__dirname, '../public');
-        this.httpServer.use(express.static(publicPath));
+        this.app.use(express.static(publicPath));
     }
     start(callback) {
         this.httpServer.listen(this.port, callback);
