@@ -3,7 +3,7 @@ require('../config/config');
 var socketIO = require('socket.io');
 var http = require('http');
 const socket = require('../sockets/socket');
-
+const path = require('path');
 
 class Server {
 
@@ -43,10 +43,10 @@ class Server {
     static init(puerto) {
         return new Server(puerto);
     }
-    publicFolder() {
 
+    publicFolder() {
         const publicPath = path.resolve(__dirname, '../public');
-        this.server.app.use(express.static(publicPath));
+        this.httpServer.use(express.static(publicPath));
     }
     start(callback) {
         this.httpServer.listen(this.port, callback);

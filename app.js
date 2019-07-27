@@ -4,8 +4,8 @@ var Server = require('./classes/server');
 var cors = require('cors');
 var appRoutes = require('./routes/app');
 require('./config/config');
-const path = require('path');
-const publicPath = path.resolve(__dirname, '../public');
+// const path = require('path');
+// const publicPath = path.resolve(__dirname, '../public');
 //Importar rutas
 
 var usuarioRoutes = require('./routes/usuario');
