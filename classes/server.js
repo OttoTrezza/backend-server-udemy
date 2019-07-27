@@ -44,13 +44,13 @@ class Server {
         return new Server(puerto);
     }
 
-    publicFolder() {
-        const publicPath = path.resolve(__dirname, '../public');
-        this.app.use(express.static(publicPath));
-    }
+    // publicFolder() {
+    //     const publicPath = path.resolve(__dirname, '../public');
+    //     this.app.use(express.static(publicPath));
+    // }
     start(callback) {
         this.httpServer.listen(this.port, callback);
-        this.publicFolder();
+        //  this.publicFolder();
     }
 }
 exports.default = Server;
