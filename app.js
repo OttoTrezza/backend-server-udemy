@@ -48,14 +48,14 @@ server.app.use(function(req, res, next) {
 
 // Rutas
 //middlewear
-server.app.use('/medico', medicoRoutes);
-server.app.use('/hospital', hospitalRoutes);
-server.app.use('/usuario', usuarioRoutes);
-server.app.use('/login', loginRoutes);
-server.app.use('/upload', uploadRoutes);
-server.app.use('/img', imagenesRoutes);
-server.app.use('/mensajes', mensajesRoutes);
-server.app.use('/busqueda', busquedaRoutes);
+server.app.use('/public/medico', medicoRoutes);
+server.app.use('/public/hospital', hospitalRoutes);
+server.app.use('/public/usuario', usuarioRoutes);
+server.app.use('/public/login', loginRoutes);
+server.app.use('/public/upload', uploadRoutes);
+server.app.use('/public/img', imagenesRoutes);
+server.app.use('/public/mensajes', mensajesRoutes);
+server.app.use('/public/busqueda', busquedaRoutes);
 
 // server.app.use(express.static(publicPath));
 
