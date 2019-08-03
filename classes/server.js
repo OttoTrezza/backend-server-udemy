@@ -19,30 +19,30 @@ class Server {
     }
 
     escucharSockets() {
-        console.log('Escuchando conexiones - sockets');
-        this.io.on('connection', cliente => {
+            console.log('Escuchando conexiones - sockets');
+            this.io.on('connection', cliente => {
 
-            console.log('Cliente conectado', cliente.id);
-            // Conectar usuario
-            socket.conectarCliente(cliente, io);
-            // Entrar chat
-            socket.entrarChat(cliente, io);
-            // Configurar usuario
-            socket.configurarUsuario(cliente, io);
-            // Obtener usuarios activos
-            socket.obtenerUsuarios(cliente, io);
-            // Mensajes
-            socket.mensaje(cliente, io);
-            // Desconectar
-            socket.desconectar(cliente, io);
-            //   cliente.on('disconect', () => {
-            //        console.log('Cliente Desconectado');
-            //    });
-        });
-    }
-    static init(puerto) {
-        return new Server(puerto);
-    }
+                console.log('Cliente conectado', cliente.id);
+                // Conectar usuario
+                socket.conectarCliente(cliente, io);
+                // Entrar chat
+                socket.entrarChat(cliente, io);
+                // Configurar usuario
+                socket.configurarUsuario(cliente, io);
+                // Obtener usuarios activos
+                socket.obtenerUsuarios(cliente, io);
+                // Mensajes
+                socket.mensaje(cliente, io);
+                // Desconectar
+                socket.desconectar(cliente, io);
+                //   cliente.on('disconect', () => {
+                //        console.log('Cliente Desconectado');
+                //    });
+            });
+        }
+        // static init(puerto) {
+        //     return new Server(puerto);
+        // }
 
     // publicFolder() {
     //     const publicPath = path.resolve(__dirname, '../public');

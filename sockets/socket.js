@@ -133,8 +133,9 @@ exports.configurarUsuario = (cliente, io) => {
 
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
-    cliente.on('obtener-usuarios', () => {
+    cliente.on('obtener-usuarios', (callback) => {
         usuarios = this.usuariosConectados.getUsuariosEnSala('Juegos');
         cliente.emit('usuarios-activos', usuarios);
+        callback = { entro: true };
     });
 };
