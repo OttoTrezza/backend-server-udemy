@@ -12,7 +12,7 @@ app.use('/public/', express.static('public/'));
 // app.post('/mensajes', (req, res) => {
 //     var cuerpo = req.body.cuerpo;
 //     var de = req.body.de;
-//     var payload = { cuerpo, de };
+//     var payload = { cuerpo, de };    
 //     server = server.default.instance;
 //     server.io.emit('mensaje-nuevo', payload);
 //     res.json({
