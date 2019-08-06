@@ -3872,9 +3872,9 @@ tbody.collapse.show {
 }
 
 .card-body-InputChat {
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: 1.25rem;
+    /* -ms-flex: 1 1 auto;
+    flex: 1 1 auto; */
+    /* padding: 1.25rem; */
     bottom: 10%;
     position: absolute;
 }
