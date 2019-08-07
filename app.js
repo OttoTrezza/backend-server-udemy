@@ -17,7 +17,6 @@ var imagenesRoutes = require('./routes/imagenes');
 var mensajesRoutes = require('./routes/mensajes');
 var busquedaRoutes = require('./routes/busqueda');
 
-
 //inicializar variables
 
 var server = Server.default.instance;
@@ -36,14 +35,10 @@ server.app.use(cors({ origin: true, credentials: true }));
 //     next();
 // });
 
-
-
 // socket
 // BodyParser
 // server.app.use(bodyParser.urlencoded({ extended: true }));
 // server.app.use(bodyParser.json());
-
-
 
 
 // Rutas
@@ -60,10 +55,6 @@ server.app.use('/public/busqueda', busquedaRoutes);
 // server.app.use(express.static(publicPath));
 
 server.app.use('/', appRoutes);
-
-
-
-
 
 //Coneccion a la base de datos
 mongoose.set('useCreateIndex', true);

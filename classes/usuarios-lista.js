@@ -33,7 +33,11 @@ class UsuariosLista {
         }
         // Obtener usuario en una sala en particular
     getUsuariosEnSala(sala) {
-            return this.lista.filter(usuarioIO => usuarioIO.sala === sala);
+        return this.lista.filter(usuarioIO => usuarioIO.sala === sala);
+    }
+    getSalas() {
+            return this.lista.filter(usuarioIO => usuarioIO.sala)
+                .map(usuarioIO.sala);
         }
         // Borrar Usuario
     borrarUsuario(id) {

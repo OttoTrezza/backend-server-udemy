@@ -14,10 +14,7 @@ exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
     cliente.on('connect', (payload) => {
         console.log('payloadID', payload.nombre);
-        this.salas = buscarUsuarios('salas');
-        algo = this.salas.length;
-        console.log(this.salas, algo);
-        salaControl.siguiente(this.salas);
+
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
         //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
@@ -50,7 +47,15 @@ exports.entrarChat = (cliente, io) => {
         // io.sockets.emit('usuarios-activos', usuarios);
         //  io.to(cliente.id).emit('usuarios-activos', exports.usuariosConectados.getLista());
         console.log('Emitido', usuarios);
+        this.salas = buscarUsuarios('salas');
+        this.falas = this.usuariosConectados.getSalas();
+        console.log('falas', this.falas);
+        algo = this.salas.length;
+        console.log(this.salas, algo);
+
         cliente.to(usuarioIO.sala).emit('usuarios-activos', usuarios);
+        cliente.to(usuarioIO.sala).emit('salas-activas', salas);
+        cliente.to(usuarioIO.sala).emit('falas-activas', falas);
         cliente.emit('usuarios-activos', usuarios);
         const pay = {
             de: 'Administrador',
