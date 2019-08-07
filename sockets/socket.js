@@ -2,6 +2,10 @@ var usuarios_lista = require('../classes/usuarios-lista');
 var socketIO = require('socket.io');
 var io = require('socket.io');
 var UsuariosChat = require('../models/usuarios');
+
+const { SalaControl } = require('../classes/sala-Control');
+
+const salaControl = new SalaControl();
 // var socket = require('socket.i
 // let usuario = Usuario;
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
@@ -10,6 +14,10 @@ exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
     cliente.on('connect', (payload) => {
         console.log('payloadID', payload.nombre);
+        this.salas = buscarUsuarios('salas');
+        algo = this.salas.length;
+        console.log(this.salas, algo);
+        salaControl.siguiente(this.salas);
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
         //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
