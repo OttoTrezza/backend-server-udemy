@@ -14,7 +14,6 @@ exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
     cliente.on('connect', (payload) => {
         console.log('payloadID', payload.nombre);
-
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
         //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
