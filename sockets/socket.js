@@ -3,9 +3,9 @@ var socketIO = require('socket.io');
 var io = require('socket.io');
 var UsuariosChat = require('../models/usuarios');
 
-const { SalaControl } = require('../classes/sala-Control');
 
-const salaControl = new SalaControl();
+
+
 // var socket = require('socket.i
 // let usuario = Usuario;
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
