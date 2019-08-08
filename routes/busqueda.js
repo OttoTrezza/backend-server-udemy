@@ -118,18 +118,18 @@ function buscarMedicos(busqueda, regex) {
 function buscarUsuarios(busqueda, regex) {
 
     return new Promise((resolve, reject) => {
-        // if (busqueda === 'salas') {
-        //     Usuario.find({}, 'sala')
-        //         .or([{ 'sala': regex }])
-        //         .populate('sala')
-        //         .exec((err, salas) => {
-        //             if (err) {
-        //                 reject('Error al cargar el sala', err);
-        //             } else {
-        //                 resolve(salas);
-        //             }
-        //         });
-        // }
+        if (busqueda === 'salas') {
+            Usuario.find({}, 'sala')
+                .or([{ 'sala': regex }])
+                .populate('sala')
+                .exec((err, salas) => {
+                    if (err) {
+                        reject('Error al cargar el sala', err);
+                    } else {
+                        resolve(salas);
+                    }
+                });
+        }
         Usuario.find({}, 'nombre email role sala img')
             .or([{ 'nombre': regex }, { 'email': regex }, { 'role': regex }, { 'sala': regex }])
             // .populate('usuario', ' img')
