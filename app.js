@@ -54,7 +54,7 @@ server.app.use('/public/busqueda', busquedaRoutes);
 
 // server.app.use(express.static(publicPath));
 
-server.app.use('/', appRoutes);
+server.app.use('/public', appRoutes);
 
 //Coneccion a la base de datos
 mongoose.set('useCreateIndex', true);
