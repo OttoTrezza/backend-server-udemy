@@ -23,9 +23,6 @@ app.get('/coleccion/:tabla/:busqueda', (req, res) => {
         case 'hospitales':
             promesa = buscarHospitales(busqueda, regex);
             break;
-        case 'buscarSalas':
-            promesa = buscarSalas(regex);
-            break;
         default:
             return res.status(400).json({
                 ok: false,
@@ -64,8 +61,7 @@ app.get('/todo/:busqueda', (req, res) => {
                 ok: true,
                 hospitales: respuestas[0],
                 medicos: respuestas[1],
-                usuarios: respuestas[2],
-                buscarSalas: respuestas[3]
+                usuarios: respuestas[2]
             });
 
         });
