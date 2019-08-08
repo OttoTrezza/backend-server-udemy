@@ -56,8 +56,8 @@ exports.entrarChat = (cliente, io) => {
         // cliente.to(usuarioIO.sala).emit('salas-activas', salas);
         // cliente.to(usuarioIO.sala).emit('falas-activas', falas);
         cliente.emit('usuarios-activos', usuarios);
-        cliente.emit('salas-activas', salas);
-        cliente.emit('falas-activas', falas);
+        //  cliente.emit('salas-activas', salas);
+        // cliente.emit('falas-activas', falas);
         const pay = {
             de: 'Administrador',
             cuerpo: 'Nuevo usuario!'
@@ -128,6 +128,22 @@ exports.mensaje = (cliente, io) => {
 // };
 
 
+// Configurar usuario
+exports.configurarUsuario = (cliente, io) => {
+    cliente.on('configurar-usuario', (payload, callback) => {
+        console.log('configUsuar', payload.nombre, payload.sala);
+        this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
+
+        cliente.emit('usuarios-activos', usuarios);
+
+
+        callback({
+            ok: true,
+            mensaje: `Usuario ${ payload.nombre } - Sala ${ payload.sala}, configurado`
+        });
+        console.log('configUsuar', payload.nombre, payload.sala);
+    });
+};
 
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
