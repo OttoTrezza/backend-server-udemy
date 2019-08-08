@@ -27,8 +27,6 @@ class Server {
                 socket.conectarCliente(cliente, io);
                 // Entrar chat
                 socket.entrarChat(cliente, io);
-                // Configurar usuario
-                socket.configurarUsuario(cliente, io);
                 // Obtener usuarios activos
                 socket.obtenerUsuarios(cliente, io);
                 // Mensajes
