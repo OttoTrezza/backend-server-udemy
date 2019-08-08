@@ -46,7 +46,7 @@ server.app.use(cors({ origin: true, credentials: true }));
 server.app.use('/public/medico', medicoRoutes);
 server.app.use('/public/hospital', hospitalRoutes);
 server.app.use('/public/usuario', usuarioRoutes);
-server.app.use('/login', loginRoutes);
+server.app.use('/public/login', loginRoutes);
 server.app.use('/public/upload', uploadRoutes);
 server.app.use('/public/img', imagenesRoutes);
 server.app.use('/public/mensajes', mensajesRoutes);
@@ -54,7 +54,7 @@ server.app.use('/public/busqueda', busquedaRoutes);
 
 // server.app.use(express.static(publicPath));
 
-server.app.use('public/', appRoutes);
+server.app.use('/', appRoutes);
 
 //Coneccion a la base de datos
 mongoose.set('useCreateIndex', true);
