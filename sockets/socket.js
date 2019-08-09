@@ -40,7 +40,7 @@ exports.entrarChat = (cliente, io) => {
         }
         cliente.join(usuarioIO.sala);
         usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioIO.sala);
-        // salas = this.usuariosConectados.getSalas();
+        salas = this.usuariosConectados.getSalas();
         console.log('Emitido', usuarios);
         cliente.to(usuarioIO.sala).emit('usuarios-activos', usuarios);
         // cliente.to(usuarioIO.sala).emit('salas-activas', salas);
