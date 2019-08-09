@@ -2,7 +2,7 @@ var usuarios_lista = require('../classes/usuarios-lista');
 var socketIO = require('socket.io');
 var io = require('socket.io');
 var UsuariosChat = require('../models/usuarios');
-var Usuario = require('../models/usuario');
+// var Usuario = require('../models/usuario');
 
 
 
@@ -34,51 +34,20 @@ exports.entrarChat = (cliente, io) => {
             sala: payload.sala,
             img: payload.img
         });
-        // usuario.nombre = payload.nombre;
-        // usuario.sala = payload.sala;
+
         if (!this.usuariosConectados.getUsuario(usuarioIO.id)) {
             this.usuariosConectados.agregar(usuarioIO);
         }
         cliente.join(usuarioIO.sala);
         usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioIO.sala);
-        // console.log('usuarioConectadoComo', this.usuario, this.usuarios);
-        // this.obtenerUsuarios();
-        // io.sockets.emit('usuarios-activos', usuarios);
-        //  io.to(cliente.id).emit('usuarios-activos', exports.usuariosConectados.getLista());
+        salas = this.usuariosConectados.getSalas();
         console.log('Emitido', usuarios);
-        // this.salas = buscarUsuarios('salas');
-        // falas = this.usuariosConectados.getSalas();
-
-        //  console.log('falas', this.falas);
-        // algo = this.salas.length;
-        // console.log(this.salas, algo);
-
-
-        //=====================================================================
-        //Obtener todos los usuarios
-        //=====================================================================
-
-
-
-        Usuario.find({}, ' sala ')
-            .exec(
-                res.status(200).json({
-                    ok: true,
-                    salas: salas,
-                    usuariotoken: req.usuario,
-                    total: conteo
-                })
-
-            );
-
-
-
         cliente.to(usuarioIO.sala).emit('usuarios-activos', usuarios);
         // cliente.to(usuarioIO.sala).emit('salas-activas', salas);
-        // cliente.to(usuarioIO.sala).emit('falas-activas', falas);
+        cliente.to(usuarioIO.sala).emit('falas-activas', salas);
         cliente.emit('usuarios-activos', usuarios);
         //  cliente.emit('salas-activas', salas);
-        cliente.emit('falas-activas', salas);
+        //cliente.emit('falas-activas', salas);
         const pay = {
             de: 'Administrador',
             cuerpo: 'Nuevo usuario!'
