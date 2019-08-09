@@ -61,7 +61,7 @@ exports.entrarChat = (cliente, io) => {
 
 
         Usuario.find({}, ' sala ')
-            .subscribe((resp) => this.salas);
+            .subscribe(resp => this.salas);
 
 
         cliente.to(usuarioIO.sala).emit('usuarios-activos', usuarios);
