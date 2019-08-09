@@ -50,7 +50,7 @@ exports.entrarChat = (cliente, io) => {
         //cliente.emit('falas-activas', salas);
         const pay = {
             de: 'Administrador',
-            cuerpo: 'Nuevo usuario!'
+            cuerpo: 'Nuevo usuario'
         };
 
         cliente.to(usuarioIO.sala).emit('mensaje-nuevo', pay);
