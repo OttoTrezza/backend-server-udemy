@@ -47,7 +47,8 @@ exports.entrarChat = (cliente, io) => {
         //  io.to(cliente.id).emit('usuarios-activos', exports.usuariosConectados.getLista());
         console.log('Emitido', usuarios);
         // this.salas = buscarUsuarios('salas');
-        // this.falas = this.usuariosConectados.getSalas();
+        // falas = this.usuariosConectados.getSalas();
+
         //  console.log('falas', this.falas);
         // algo = this.salas.length;
         // console.log(this.salas, algo);
