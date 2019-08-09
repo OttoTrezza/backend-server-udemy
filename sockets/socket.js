@@ -61,7 +61,16 @@ exports.entrarChat = (cliente, io) => {
 
 
         Usuario.find({}, ' sala ')
-            .subscribe(resp => this.salas);
+            .exec(
+                res.status(200).json({
+                    ok: true,
+                    salas: salas,
+                    usuariotoken: req.usuario,
+                    total: conteo
+                })
+
+            );
+
 
 
         cliente.to(usuarioIO.sala).emit('usuarios-activos', usuarios);
@@ -69,7 +78,7 @@ exports.entrarChat = (cliente, io) => {
         // cliente.to(usuarioIO.sala).emit('falas-activas', falas);
         cliente.emit('usuarios-activos', usuarios);
         //  cliente.emit('salas-activas', salas);
-        cliente.emit('falas-activas', this.salas);
+        cliente.emit('falas-activas', salas);
         const pay = {
             de: 'Administrador',
             cuerpo: 'Nuevo usuario!'
