@@ -36,9 +36,8 @@ class UsuariosLista {
         return this.lista.filter(usuarioIO => usuarioIO.sala === sala);
     }
     getSalas() {
-            return this.buscarUsuarios('salas');
-            // this.lista.filter(usuarioIO => usuarioIO.sala)
-            //     .map(usuarioIO.sala);
+            return this.lista.filter(usuarioIO => usuarioIO.sala)
+                .map(usuarioIO.sala);
         }
         // Borrar Usuario
     borrarUsuario(id) {

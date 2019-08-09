@@ -2,7 +2,7 @@ var usuarios_lista = require('../classes/usuarios-lista');
 var socketIO = require('socket.io');
 var io = require('socket.io');
 var UsuariosChat = require('../models/usuarios');
-
+var Usuario = require('../models/usuario');
 
 
 
@@ -53,12 +53,23 @@ exports.entrarChat = (cliente, io) => {
         // algo = this.salas.length;
         // console.log(this.salas, algo);
 
+
+        //=====================================================================
+        //Obtener todos los usuarios
+        //=====================================================================
+
+
+
+        Usuario.find({}, ' sala ')
+            .subscribe((resp) => this.salas);
+
+
         cliente.to(usuarioIO.sala).emit('usuarios-activos', usuarios);
         // cliente.to(usuarioIO.sala).emit('salas-activas', salas);
         // cliente.to(usuarioIO.sala).emit('falas-activas', falas);
         cliente.emit('usuarios-activos', usuarios);
         //  cliente.emit('salas-activas', salas);
-        // cliente.emit('falas-activas', falas);
+        cliente.emit('falas-activas', this.salas);
         const pay = {
             de: 'Administrador',
             cuerpo: 'Nuevo usuario!'
