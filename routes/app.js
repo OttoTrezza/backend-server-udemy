@@ -1,13 +1,13 @@
 var express = require('express');
 var app = express();
 
-app.get('/public/', (req, res, next) => {
+app.get('/', (req, res, next) => {
     res.status(200).json({
         ok: true,
         mensaje: 'peticion realizada correctamente1'
     });
 });
-// app.use('/public/', express.static('public/'));
+app.use('/public/', express.static('public/'));
 // app.post('/mensajes', (req, res) => {
 //     var cuerpo = req.body.cuerpo;
 //     var de = req.body.de;
