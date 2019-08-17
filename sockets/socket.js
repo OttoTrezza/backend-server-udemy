@@ -44,19 +44,9 @@ exports.entrarChat = (cliente, io) => {
 
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
         cliente.emit('mensaje-nuevo', pay);
-        // return callback(usuarios);
+
     });
 };
-
-// cliente.join('Juegos', () => {
-//     let rooms = Object.keys(socket.rooms);
-//     console.log(rooms);
-// });
-// io.emit('usuarios-activos', usuariosConectados.getLista());
-
-// usuariosConectados.agregar(usuario);
-//   usuarios = usuariosConectados.getLista();
-// console.log('usuarios conectados', usuarios);
 
 exports.desconectar = (cliente, io) => {
     cliente.on('disconnect', () => {
@@ -110,8 +100,8 @@ exports.configurarUsuario = (cliente, io) => {
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
     cliente.on('obtener-usuarios', (pay, callback) => {
-        usuarios = this.usuariosConectados.getUsuariosEnSala(pay.sala);
-        cliente.to(pay.sala).emit('usuarios-activos', usuarios);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
+        cliente.to(pay).emit('usuarios-activos', usuarios);
         cliente.emit('usuarios-activos', usuarios);
         console.log('Emitido', usuarios);
         callback = { entro: true };
