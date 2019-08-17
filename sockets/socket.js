@@ -9,7 +9,7 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
     cliente.on('connect', () => {
-        console.log('clienteID', cliente._id);
+        console.log('clienteID', cliente.id);
     });
 };
 exports.entrarChat = (cliente, io) => {
