@@ -4,35 +4,24 @@ var io = require('socket.io');
 var UsuariosChat = require('../models/usuarios');
 // var Usuario = require('../models/usuario');
 
-
-
-// var socket = require('socket.i
-// let usuario = Usuario;
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    cliente.on('connect', (payload) => {
+    cliente.on('connect', payload, () => {
         console.log('payloadID', payload.nombre);
-        // this.usuariosConectados.agregar(payload);
-        // this.getUsuariosEnSala(payload.sala);
-        //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
-
-        //  res.io.emit('obtener-usuarios', this.usuarios);
     });
 };
 exports.entrarChat = (cliente, io) => {
-    cliente.on('entrarChat', (payload) => {
-        // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
+    cliente.on('entrarChat', payload, () => {
 
-
-        var usuarioIO = new UsuariosChat({
+        usuarioIO = new UsuariosChat({
             id: cliente.id,
             nombre: payload.nombre,
             sala: payload.sala,
             img: payload.img
         });
-        usuario.save((err, usuarioGuardado) => {
+        usuarioIO.save((err, usuarioGuardado) => {
             if (err) {
                 emit('fallo guardar usuario');
             }
@@ -125,7 +114,6 @@ exports.configurarUsuario = (cliente, io) => {
         this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
 
         cliente.emit('usuarios-activos', usuarios);
-
 
         callback({
             ok: true,

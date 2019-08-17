@@ -1,5 +1,3 @@
-var UsuariosChat = require('../models/usuarios');
-
 class UsuariosLista {
     constructor() {
             this.lista = [];

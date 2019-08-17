@@ -31,6 +31,8 @@ class Server {
                 socket.configurarUsuario(cliente, io);
                 // Obtener usuarios activos
                 socket.obtenerUsuarios(cliente, io);
+                // Obtener salas activas
+                socket.obtenerSalas(cliente, io);
                 // Mensajes
                 socket.mensaje(cliente, io);
                 // Desconectar
