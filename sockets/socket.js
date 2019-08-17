@@ -6,10 +6,17 @@ var UsuariosChat = require('../models/usuarios');
 
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
+
+
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    cliente.on('connect', () => {
-        console.log('clienteID', cliente.id);
+    cliente.on('connect', (payload) => {
+        console.log('clienteID', payload.nombre);
+        if (!this.usuariosConectados.getUsuario(usuarioIO.id)) {
+            this.usuariosConectados.agregar(usuarioIO);
+        }
+        //  cliente.join(usuarioIO.sala);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
     });
 };
 exports.entrarChat = (cliente, io) => {
