@@ -8,8 +8,8 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    cliente.on('connect', payload, () => {
-        console.log('payloadID', payload.nombre);
+    cliente.on('connect', () => {
+        console.log('clienteID', cliente._id);
     });
 };
 exports.entrarChat = (cliente, io) => {
@@ -90,22 +90,6 @@ exports.mensaje = (cliente, io) => {
         //   return callback(payl);
     });
 };
-
-// Mensaje Nuevo ( SIEMPRE RESPUESTA DEL SERVER!!!)
-
-// exports.mensaje = (cliente, io) => {
-//     cliente.on('mensaje-nuevo', (payload) => {
-
-//         console.log('Mensaje recibido', payload);
-
-//         io.to(this.cliente).emit('resp', payload);
-
-//         //  io.emit('mensaje-nuevo', payl);
-//         console.log('payload', payl);
-//         //   return callback(payl);
-//     });
-// };
-
 
 // Configurar usuario
 exports.configurarUsuario = (cliente, io) => {
