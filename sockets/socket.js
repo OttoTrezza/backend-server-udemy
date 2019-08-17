@@ -13,7 +13,7 @@ exports.conectarCliente = (cliente, io) => {
     });
 };
 exports.entrarChat = (cliente, io) => {
-    cliente.on('entrarChat', payload, () => {
+    cliente.on('entrarChat', (payload) => {
 
         usuarioIO = new UsuariosChat({
             id: cliente.id,
@@ -109,7 +109,7 @@ exports.configurarUsuario = (cliente, io) => {
 
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
-    cliente.on('obtener-usuarios', pay, (callback) => {
+    cliente.on('obtener-usuarios', (pay, callback) => {
         usuarios = this.usuariosConectados.getUsuariosEnSala(pay.sala);
         cliente.to(pay.sala).emit('usuarios-activos', usuarios);
         cliente.emit('usuarios-activos', usuarios);
