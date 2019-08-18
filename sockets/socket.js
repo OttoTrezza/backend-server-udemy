@@ -6,19 +6,33 @@ var UsuariosChat = require('../models/usuarios');
 
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
-
-
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
     cliente.on('connect', (payload) => {
-        console.log('clienteID', payload.nombre);
+        console.log('payloadID', payload.nombre);
+        // this.usuariosConectados.agregar(payload);
+        // this.getUsuariosEnSala(payload.sala);
+        //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
         if (!this.usuariosConectados.getUsuario(usuarioIO.id)) {
             this.usuariosConectados.agregar(usuarioIO);
         }
         //  cliente.join(usuarioIO.sala);
         usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
+        //  res.io.emit('obtener-usuarios', this.usuarios);
     });
 };
+
+// exports.conectarCliente = (cliente, io) => {
+//     // console.log('cliente', cliente);
+//     cliente.on('connect', (payload) => {
+//         console.log('clienteID', payload.nombre);
+//         if (!this.usuariosConectados.getUsuario(payload.id)) {
+//             this.usuariosConectados.agregar(payload);
+//         }
+//         //  cliente.join(usuarioIO.sala);
+//         usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
+//     });
+// };
 exports.entrarChat = (cliente, io) => {
     cliente.on('entrarChat', (payload) => {
 
