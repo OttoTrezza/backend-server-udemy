@@ -13,7 +13,7 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
     cliente.on('connect', () => {
-        console.log('clienteID', cliente.id);
+        // console.log('clienteID', cliente.id);
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
         //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
