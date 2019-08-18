@@ -12,8 +12,8 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    cliente.on('connect', (payload) => {
-        console.log('payloadID', payload.nombre);
+    cliente.on('connect', () => {
+        console.log('clienteID', cliente.id);
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
         //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
@@ -32,7 +32,7 @@ exports.entrarChat = (cliente, io) => {
             sala: payload.sala,
             img: payload.img
         });
-        usuario.save((err, usuarioGuardado) => {
+        usuarioIO.save((err, usuarioGuardado) => {
             if (err) {
                 emit('fallo guardar usuario');
             }
@@ -137,16 +137,21 @@ exports.configurarUsuario = (cliente, io) => {
 
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
-    cliente.on('obtener-usuarios', pay, (callback) => {
-        usuarios = this.usuariosConectados.getUsuariosEnSala(pay.sala);
+    cliente.on('obtener-usuarios', (pay, callback) => {
+        usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
+        cliente.to(pay).emit('usuarios-activos', usuarios);
         cliente.emit('usuarios-activos', usuarios);
+        console.log('Emitido', usuarios);
         callback = { entro: true };
     });
 };
 
-
-usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
-
-cliente.to(payload.sala).emit('usuarios-activos', usuarios);
-cliente.emit('usuarios-activos', usuarios);
-console.log('Emitido', usuarios);
+// Obtener Salas
+exports.obtenerSalas = (cliente, io) => {
+    cliente.on('obtener-salas', (callback) => {
+        salas = this.usuariosConectados.getSalas();
+        cliente.emit('salas-activas', salas);
+        console.log('Emitido', salas);
+        callback = { entro: true };
+    });
+};
