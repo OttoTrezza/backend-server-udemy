@@ -8,7 +8,7 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    cliente.on('connect', (payload) => {
+    cliente.on('connect', payload, () => {
         console.log('payloadID', payload.nombre);
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
@@ -34,7 +34,7 @@ exports.conectarCliente = (cliente, io) => {
 //     });
 // };
 exports.entrarChat = (cliente, io) => {
-    cliente.on('entrarChat', (payload) => {
+    cliente.on('entrarChat', payload, () => {
 
         usuarioIO = new UsuariosChat({
             id: cliente.id,
