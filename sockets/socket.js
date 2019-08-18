@@ -59,15 +59,6 @@ exports.entrarChat = (cliente, io) => {
     });
 };
 
-// cliente.join('Juegos', () => {
-//     let rooms = Object.keys(socket.rooms);
-//     console.log(rooms);
-// });
-// io.emit('usuarios-activos', usuariosConectados.getLista());
-
-// usuariosConectados.agregar(usuario);
-//   usuarios = usuariosConectados.getLista();
-// console.log('usuarios conectados', usuarios);
 
 exports.desconectar = (cliente, io) => {
     cliente.on('disconnect', () => {
