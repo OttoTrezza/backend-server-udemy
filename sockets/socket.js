@@ -8,8 +8,8 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    cliente.on('connect', payload, () => {
-        console.log('payloadID', payload.nombre);
+    cliente.on('connect', (usuarioIO) => {
+        // console.log('payloadID', payload.nombre);
         // this.usuariosConectados.agregar(payload);
         // this.getUsuariosEnSala(payload.sala);
         //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
@@ -17,7 +17,7 @@ exports.conectarCliente = (cliente, io) => {
             this.usuariosConectados.agregar(usuarioIO);
         }
         //  cliente.join(usuarioIO.sala);
-        usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioIO.sala);
         //  res.io.emit('obtener-usuarios', this.usuarios);
     });
 };
