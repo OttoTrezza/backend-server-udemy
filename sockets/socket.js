@@ -34,9 +34,9 @@ exports.entrarChat = (cliente, io) => {
         });
         usuarioIO.save((err, usuarioGuardado) => {
             if (err) {
-                emit('fallo guardar usuario');
+                cliente.emit('mensaje', 'Fallo carga');
             }
-            emit('usuarioguardado', usuarioGuardado);
+            cliente.emit('usuarioguardado', usuarioGuardado);
         });
         if (!this.usuariosConectados.getUsuario(payload.id)) {
             this.usuariosConectados.agregar(payload);
