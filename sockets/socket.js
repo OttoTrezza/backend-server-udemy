@@ -27,7 +27,7 @@ exports.entrarChat = (cliente, io) => {
 
 
         var usuarioIO = new UsuariosChat({
-            id: cliente.id,
+            id: cliente._id,
             nombre: payload.nombre,
             sala: payload.sala,
             img: payload.img
