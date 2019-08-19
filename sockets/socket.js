@@ -22,7 +22,7 @@ exports.conectarCliente = (cliente, io) => {
     });
 };
 exports.entrarChat = (cliente, io) => {
-    cliente.on('entrarChat', (payload) => {
+    cliente.on('entrarChat', (payload, callback) => {
         // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
 
 
@@ -55,7 +55,7 @@ exports.entrarChat = (cliente, io) => {
 
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
         cliente.emit('mensaje-nuevo', pay);
-        // return callback(usuarios);
+        return callback(usuarios);
     });
 };
 
