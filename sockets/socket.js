@@ -93,21 +93,6 @@ exports.mensaje = (cliente, io) => {
     });
 };
 
-// Mensaje Nuevo ( SIEMPRE RESPUESTA DEL SERVER!!!)
-
-// exports.mensaje = (cliente, io) => {
-//     cliente.on('mensaje-nuevo', (payload) => {
-
-//         console.log('Mensaje recibido', payload);
-
-//         io.to(this.cliente).emit('resp', payload);
-
-//         //  io.emit('mensaje-nuevo', payl);
-//         console.log('payload', payl);
-//         //   return callback(payl);
-//     });
-// };
-
 
 // Configurar usuario
 exports.configurarUsuario = (cliente, io) => {
