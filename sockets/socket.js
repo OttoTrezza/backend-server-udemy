@@ -43,9 +43,11 @@ exports.entrarChat = (cliente, io) => {
         }
         cliente.join(payload.sala);
         usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
+        salas = this.usuariosConectados.getSalas();
 
         cliente.to(payload.sala).emit('usuarios-activos', usuarios);
         cliente.emit('usuarios-activos', usuarios);
+        cliente.emit('salas-activas', salas);
         console.log('Emitido', usuarios);
 
         const pay = {
