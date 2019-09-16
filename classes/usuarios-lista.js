@@ -33,7 +33,7 @@ class UsuariosLista {
         }
         // Obtener usuario en una sala en particular
     getUsuariosEnSala(sala) {
-        return this.lista.filter(usuarioIO => usuarioIO.sala === sala);
+        return this.lista.find(usuarioIO => usuarioIO.sala === sala);
     }
     getSalas() {
             return this.lista.filter(usuarioIO => usuarioIO.sala);
