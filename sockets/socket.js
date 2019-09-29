@@ -114,13 +114,23 @@ exports.configurarUsuario = (cliente, io) => {
 };
 
 // Obtener Usuarios
+// exports.obtenerUsuarios = (cliente, io) => {
+//     cliente.on('obtener-usuarios', (pay, callback) => {
+//         usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
+//         cliente.to(pay).emit('usuarios-activos', usuarios);
+//         cliente.emit('usuarios-activos', usuarios);
+//         console.log('Emitido', usuarios);
+//         callback = { entro: true };
+//     });
+// };
+
+
+// Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
-    cliente.on('obtener-usuarios', (pay, callback) => {
-        usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
-        cliente.to(pay).emit('usuarios-activos', usuarios);
+    cliente.on('obtener-usuarios', () => {
+        usuarios = this.usuariosConectados.getLista();
         cliente.emit('usuarios-activos', usuarios);
         console.log('Emitido', usuarios);
-        callback = { entro: true };
     });
 };
 
