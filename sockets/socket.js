@@ -1,7 +1,7 @@
 var usuarios_lista = require('../classes/usuarios-lista');
 var socketIO = require('socket.io');
 var io = require('socket.io');
-var UsuariosChat = require('../models/usuarios');
+// var UsuariosChat = require('../models/usuarios');
 // var Usuario = require('../models/usuario');
 
 
@@ -24,31 +24,23 @@ exports.conectarCliente = (cliente, io) => {
 exports.entrarChat = (cliente, io) => {
     cliente.on('entrarChat', (payload) => {
         // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
-
-
-        var usuarioIO = new UsuariosChat({
-            id: cliente._id,
+        usuarioLis = {
             nombre: payload.nombre,
             sala: payload.sala,
             img: payload.img
-        });
-        usuarioIO.save((err, usuarioGuardado) => {
-            if (err) {
-                cliente.emit('mensaje', 'Fallo carga');
-            }
-            cliente.emit('usuarioguardado', usuarioGuardado);
-        });
-        if (!this.usuariosConectados.getUsuario(payload.id)) {
-            this.usuariosConectados.agregar(payload);
+        };
+
+        if (!this.usuariosConectados.getUsuario(usuarioLis.nombre)) {
+            this.usuariosConectados.agregar(usuarioLis);
         }
-        cliente.join(payload.sala);
-        usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
+        cliente.join(usuarioLis.sala);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioLis.sala);
         // salas = this.usuariosConectados.getSalas();
 
-        cliente.to(payload.sala).emit('usuarios-activos', usuarios);
-        cliente.emit('usuarios-activos', usuarios);
-        // cliente.emit('salas-activas', salas);
-        console.log('Emitido', usuarios);
+        cliente.to(usuarioLis.sala).emit('usuarios-activos', this.usuarios);
+        cliente.emit('usuarios-activos', this.usuarios);
+        cliente.emit('salas-activas', "juegos");
+        // console.log('Emitido', usuarios);
 
         const pay = {
             de: 'Administrador',
