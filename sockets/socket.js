@@ -34,11 +34,11 @@ exports.entrarChat = (cliente, io) => {
             this.usuariosConectados.agregar(usuarioLis);
         }
         cliente.join(usuarioLis.sala);
-        usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioLis.sala);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
         // salas = this.usuariosConectados.getSalas();
 
-        cliente.to(usuarioLis.sala).emit('usuarios-activos', this.usuarios);
-        cliente.emit('usuarios-activos', this.usuarios);
+        cliente.to(usuarioLis.sala).emit('usuarios-activos', usuarios);
+        cliente.emit('usuarios-activos', usuarios);
         cliente.emit('salas-activas', "juegos");
         // console.log('Emitido', usuarios);
 
