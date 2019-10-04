@@ -39,7 +39,7 @@ exports.entrarChat = (cliente, io) => {
 
         // cliente.to(usuarioLis.sala).emit('usuarios-activos', this.usuarios);
         cliente.to(usuarioLis.sala).emit('usuarios-activos', usuarios);
-        salas = this.usuariosConectados.getSalas();
+        // salas = this.usuariosConectados.getSalas();
         cliente.emit('salas-activas', salas);
         // console.log('Emitido', usuarios);
 
@@ -77,10 +77,11 @@ exports.mensaje = (cliente, io) => {
         msg = {
             de: payload.de,
             cuerpo: payload.cuerpo,
-            img: payload.img
+            img: payload.img,
+            sala: payload.sala
         };
-        cliente.to('Juegos').emit('mensaje-nuevo', msg);
-        cliente.emit('mensaje-nuevo', msg);
+        cliente.to(payload.sala).emit('mensaje-nuevo', msg);
+        // cliente.emit('mensaje-nuevo', msg);
 
         //  io.emit('mensaje-nuevo', payl);
         console.log('payload', msg);

@@ -37,7 +37,7 @@ class UsuariosLista {
 
     }
     getSalas() {
-            return this.lista.filter(usuarioLis.sala !== 'sin-nombre');
+            return this.lista.filter(usuarioLis.sala !== '');
             //         return this.lista.filter(usuarioLis => usuarioLis.sala);
             //         // .map(usuarioLis.sala);
         }
