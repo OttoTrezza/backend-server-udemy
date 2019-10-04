@@ -38,9 +38,9 @@ exports.entrarChat = (cliente, io) => {
         // salas = this.usuariosConectados.getSalas();
 
         // cliente.to(usuarioLis.sala).emit('usuarios-activos', this.usuarios);
-        cliente.emit('usuarios-activos', usuarios);
-        cliente.emit('cliente', cliente);
-        cliente.emit('salas-activas', "juegos");
+        cliente.to(usuarioLis.sala).emit('usuarios-activos', usuarios);
+        salas = this.usuariosConectados.getSalas();
+        cliente.emit('salas-activas', salas);
         // console.log('Emitido', usuarios);
 
         const pay = {
@@ -48,8 +48,8 @@ exports.entrarChat = (cliente, io) => {
             cuerpo: 'Nuevo usuario'
         };
 
-        cliente.to(payload.sala).emit('mensaje-nuevo', pay);
-        cliente.emit('mensaje-nuevo', pay);
+        cliente.to(usuarioLis.sala).emit('mensaje-nuevo', pay);
+        // cliente.emit('mensaje-nuevo', pay);
         // return callback(usuarios);
     });
 };
