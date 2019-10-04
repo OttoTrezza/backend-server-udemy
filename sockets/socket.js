@@ -39,6 +39,7 @@ exports.entrarChat = (cliente, io) => {
 
         // cliente.to(usuarioLis.sala).emit('usuarios-activos', this.usuarios);
         cliente.emit('usuarios-activos', usuarios);
+        cliente.emit('cliente', cliente);
         cliente.emit('salas-activas', "juegos");
         // console.log('Emitido', usuarios);
 
