@@ -76,18 +76,19 @@ exports.mensaje = (cliente, io) => {
         msg = {
             de: payload.de,
             cuerpo: payload.cuerpo,
-            img: payload.img
+            img: payload.img,
+            sala: payload.sala
         };
-        cliente.to('Juegos').emit('mensaje-nuevo', msg);
-        cliente.emit('mensaje-nuevo', msg);
+        cliente.to(sala).emit('mensaje-nuevo', msg);
+        // cliente.emit('mensaje-nuevo', msg);
 
 
         //  ;
         // console.log('payload', msg);
         // =======
         //  io.emit('mensaje-nuevo', payl);
-        console.log('payload', msg);
-        return callback(payl);
+        // console.log('payload', msg);
+        return callback(msg);
     });
 };
 
