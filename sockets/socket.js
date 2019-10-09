@@ -81,35 +81,39 @@ exports.mensaje = (cliente, io) => {
         cliente.to('Juegos').emit('mensaje-nuevo', msg);
         cliente.emit('mensaje-nuevo', msg);
 
+
         //  ;
+        // console.log('payload', msg);
+        // =======
+        //  io.emit('mensaje-nuevo', payl);
         console.log('payload', msg);
-        //   return callback(payl);
+        return callback(payl);
     });
 };
 
 
 // Configurar usuario
 exports.configurarUsuario = (cliente, io) => {
-    cliente.on('configurar-usuario', (payload, callback) => {
-        console.log('configUsuar', payload.nombre, payload.sala);
-        this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
+    // cliente.on('configurar-usuario', (payload, callback) => {
+    //     console.log('configUsuar', payload.nombre, payload.sala);
+    //     this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
 
-        cliente.emit('usuarios-activos', usuarios);
+    //     cliente.emit('usuarios-activos', usuarios);
 
 
-        callback({
-            ok: true,
-            mensaje: `Usuario ${ payload.nombre } - Sala ${ payload.sala}, configurado`
-        });
-        console.log('configUsuar', payload.nombre, payload.sala);
-    });
+    //     callback({
+    //         ok: true,
+    //         mensaje: `Usuario ${ payload.nombre } - Sala ${ payload.sala}, configurado`
+    //     });
+    //     console.log('configUsuar', payload.nombre, payload.sala);
+    // });
 };
 
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
     cliente.on('obtener-usuarios', (pay, callback) => {
-        usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
-        cliente.to(pay).emit('usuarios-activos', usuarios);
+        this.usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
+        cliente.to(pay).emit('usuarios-activos', this.usuarios);
         cliente.emit('usuarios-activos', usuarios);
         console.log('Emitido', usuarios);
         callback = { entro: true };
