@@ -81,7 +81,7 @@ exports.mensaje = (cliente, io) => {
         cliente.to('Juegos').emit('mensaje-nuevo', msg);
         cliente.emit('mensaje-nuevo', msg);
 
-        //  io.emit('mensaje-nuevo', payl);
+        //  ;
         console.log('payload', msg);
         //   return callback(payl);
     });
