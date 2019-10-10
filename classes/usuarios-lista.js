@@ -33,8 +33,8 @@ class UsuariosLista {
         }
         // Obtener usuario en una sala en particular
     getUsuariosEnSala(sala) {
-        return this.lista.filter(usuarioLis => usuarioLis.sala === sala);
-
+        // return this.lista.filter(usuarioLis => usuarioLis.sala === sala);
+        return sala;
     }
     getSalas() {
             return "juegos";
@@ -49,3 +49,7 @@ class UsuariosLista {
     }
 }
 exports.UsuariosLista = UsuariosLista;
+
+
+// */*/*/*/ OJO:
+// getUsuariosEnSala va la linea comiteada y hay que comitear la otra!!!Sino manda siempre lo que le mandan...no busca nada
