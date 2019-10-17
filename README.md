@@ -1,10 +1,10 @@
-﻿# Backend-Server..
+﻿# Backend-Server
 
 Este es el codigo necesario para establecer el backend 
 conectado a mongo usando Mongoose.
 
-Para ejecutarlo, sera necesario reconstruir los modulos
-de node usando el comando.
+Para ejecutarlo, es necesario reconstruir los modulos
+de node usando el comando
 
 ```
 npm instal
@@ -54,7 +54,7 @@ pasar el puerto a 4200 antes de mandarlo a produccion
 *****/////////
 *****/////////
 *****/////////
-            LIST TO DO THINGS...
+            LIST TO DO THINGS....
 *****/////////
 *****/////////
 *****/////////

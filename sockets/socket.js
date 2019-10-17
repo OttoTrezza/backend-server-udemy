@@ -1,7 +1,7 @@
 var usuarios_lista = require('../classes/usuarios-lista');
 var socketIO = require('socket.io');
 var io = require('socket.io');
-// var UsuariosChat = require('../models/usuarios');
+var UsuariosChat = require('../models/usuarios');
 // var Usuario = require('../models/usuario');
 
 
@@ -12,35 +12,41 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
 exports.conectarCliente = (cliente, io) => {
     // console.log('cliente', cliente);
-    //  cliente.on('connect', () => {
-    // console.log('clienteID', cliente.id);
-    // this.usuariosConectados.agregar(payload);
-    // this.getUsuariosEnSala(payload.sala);
-    //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
+    cliente.on('connect', () => {
+        // console.log('clienteID', cliente.id);
+        // this.usuariosConectados.agregar(payload);
+        // this.getUsuariosEnSala(payload.sala);
+        //  console.log('usuarioConectadoComo', usuario, this.usuario, usuarios, this.usuarios);
 
-    //  res.io.emit('obtener-usuarios', this.usuarios);
-    //  });
+        //  res.io.emit('obtener-usuarios', this.usuarios);
+    });
 };
 exports.entrarChat = (cliente, io) => {
     cliente.on('entrarChat', (payload) => {
         // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
-        usuarioLis = {
+
+
+        var usuarioIO = new UsuariosChat({
+            id: cliente.id,
             nombre: payload.nombre,
             sala: payload.sala,
             img: payload.img
-        };
-
-        if (!this.usuariosConectados.getUsuario(usuarioLis.nombre)) {
-            this.usuariosConectados.agregar(usuarioLis);
+        });
+        usuarioIO.save((err, usuarioGuardado) => {
+            if (err) {
+                cliente.emit('mensaje', 'Fallo carga');
+            }
+            cliente.emit('usuarioguardado', usuarioGuardado);
+        });
+        if (!this.usuariosConectados.getUsuario(payload.id)) {
+            this.usuariosConectados.agregar(payload);
         }
-        cliente.join(usuarioLis.sala);
-        usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioLis.sala);
-        // salas = this.usuariosConectados.getSalas();
+        cliente.join(payload.sala);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(payload.sala);
 
-        // cliente.to(usuarioLis.sala).emit('usuarios-activos', this.usuarios);
+        cliente.to(payload.sala).emit('usuarios-activos', usuarios);
         cliente.emit('usuarios-activos', usuarios);
-        cliente.emit('salas-activas', "juegos");
-        // console.log('Emitido', usuarios);
+        console.log('Emitido', usuarios);
 
         const pay = {
             de: 'Administrador',
@@ -76,45 +82,55 @@ exports.mensaje = (cliente, io) => {
         msg = {
             de: payload.de,
             cuerpo: payload.cuerpo,
-            img: payload.img,
-            sala: payload.sala
+            img: payload.img
         };
-        cliente.to(sala).emit('mensaje-nuevo', msg);
-        // cliente.emit('mensaje-nuevo', msg);
+        cliente.to('Juegos').emit('mensaje-nuevo', msg);
+        cliente.emit('mensaje-nuevo', msg);
 
-
-        //  ;
-        // console.log('payload', msg);
-        // =======
         //  io.emit('mensaje-nuevo', payl);
-        // console.log('payload', msg);
-        return callback(msg);
+        console.log('payload', msg);
+        //   return callback(payl);
     });
 };
+
+// Mensaje Nuevo ( SIEMPRE RESPUESTA DEL SERVER!!!)
+
+// exports.mensaje = (cliente, io) => {
+//     cliente.on('mensaje-nuevo', (payload) => {
+
+//         console.log('Mensaje recibido', payload);
+
+//         io.to(this.cliente).emit('resp', payload);
+
+//         //  io.emit('mensaje-nuevo', payl);
+//         console.log('payload', payl);
+//         //   return callback(payl);
+//     });
+// };
 
 
 // Configurar usuario
 exports.configurarUsuario = (cliente, io) => {
-    // cliente.on('configurar-usuario', (payload, callback) => {
-    //     console.log('configUsuar', payload.nombre, payload.sala);
-    //     this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
+    cliente.on('configurar-usuario', (payload, callback) => {
+        console.log('configUsuar', payload.nombre, payload.sala);
+        this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
 
-    //     cliente.emit('usuarios-activos', usuarios);
+        cliente.emit('usuarios-activos', usuarios);
 
 
-    //     callback({
-    //         ok: true,
-    //         mensaje: `Usuario ${ payload.nombre } - Sala ${ payload.sala}, configurado`
-    //     });
-    //     console.log('configUsuar', payload.nombre, payload.sala);
-    // });
+        callback({
+            ok: true,
+            mensaje: `Usuario ${ payload.nombre } - Sala ${ payload.sala}, configurado`
+        });
+        console.log('configUsuar', payload.nombre, payload.sala);
+    });
 };
 
 // Obtener Usuarios
 exports.obtenerUsuarios = (cliente, io) => {
     cliente.on('obtener-usuarios', (pay, callback) => {
-        this.usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
-        cliente.to(pay).emit('usuarios-activos', this.usuarios);
+        usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
+        cliente.to(pay).emit('usuarios-activos', usuarios);
         cliente.emit('usuarios-activos', usuarios);
         console.log('Emitido', usuarios);
         callback = { entro: true };
