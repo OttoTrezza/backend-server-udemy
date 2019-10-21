@@ -51,7 +51,7 @@ class Server {
     //     this.app.use(express.static(publicPath));
     // }
     start(callback) {
-        this.httpServer.listen(this.port, callback);
+        //  this.httpServer.listen(this.port, callback);
         //  this.publicFolder();
     }
 }
