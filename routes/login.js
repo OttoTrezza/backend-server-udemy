@@ -95,7 +95,7 @@ app.post('/google', (req, res) => {
                     // Si el usuario no existe por correo
                 } else {
 
-                    var usuario = new Usuario();
+                    let usuario = new Usuario();
 
 
                     usuario.nombre = payload.name;
@@ -122,6 +122,7 @@ app.post('/google', (req, res) => {
                             usuario: usuarioDB,
                             token: token,
                             id: usuarioDB._id,
+                            sala: usuarioDB.sala,
                             menu: obtenerMenu(usuarioDB.role)
 
                         });
@@ -184,6 +185,7 @@ app.post('/', (req, res) => {
             usuario: usuarioDB,
             token: token,
             id: usuarioDB._id,
+            sala: usuarioDB.sala,
             menu: obtenerMenu(usuarioDB.role)
         });
 
