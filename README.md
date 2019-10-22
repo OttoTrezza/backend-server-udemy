@@ -13,7 +13,7 @@ npm instal
 ## Dentro de Google-Signin-demo
 
 Existe un pequeño ejercicio para probar la autenticacion
-de Google en un Front-End basico pero funcional.
+de Google en un Front-End basico pero funcional..
 
 PARA INICAR PROYECTO(version de produccion)
 
