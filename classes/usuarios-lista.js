@@ -6,6 +6,7 @@ class UsuariosLista {
     agregar(usuarioLis) {
             this.lista.push(usuarioLis);
             console.log(this.lista);
+            return usuarioLis;
         }
         // actualizarNombre(id, nombre, sala) {
         //         for (let usuarioIO of this.lista) {
@@ -26,17 +27,19 @@ class UsuariosLista {
             console.log('getLista');
             return this.lista.filter(usuarioLis => usuarioLis.nombre !== 'sin-nombre');
         }
+        // Obtener un usuario
+    getUsuario(nombre) {
+            return this.lista.find(usuarioLis => usuarioLis.nombre === nombre);
+        }
         // Obtener usuario en una sala en particular
     getUsuariosEnSala(sala) {
         return this.lista.filter(usuarioLis => usuarioLis.sala === sala);
+
     }
     getSalas() {
-        return "juegos";
-        //   return this.lista.filter(usuarioIO => usuarioIO.sala)
-        //     .map(usuarioIO.sala);
-    }
-    getUsuario(nombre) {
-            return this.lista.find(usuarioLis => usuarioLis.nombre === nombre);
+            return "juegos";
+            //         return this.lista.filter(usuarioLis => usuarioLis.sala);
+            //         // .map(usuarioLis.sala);
         }
         // Borrar Usuario
     borrarUsuario(nombre) {

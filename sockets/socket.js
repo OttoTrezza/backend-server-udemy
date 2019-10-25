@@ -74,8 +74,8 @@ exports.mensaje = (cliente, io) => {
         cliente.emit('mensaje-nuevo', msg);
 
         //  io.emit('mensaje-nuevo', payl);
-        console.log('payload', msg);
-        return callback(msg);
+        // console.log('payload', msg);
+        // return callback(msg);
     });
 };
 
