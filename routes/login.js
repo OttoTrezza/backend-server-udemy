@@ -122,7 +122,7 @@ app.post('/google', (req, res) => {
                             usuario: usuarioDB,
                             token: token,
                             id: usuarioDB._id,
-                            sala: usuarioDB.sala,
+                            // sala: usuarioDB.sala,
                             menu: obtenerMenu(usuarioDB.role)
 
                         });
@@ -185,7 +185,7 @@ app.post('/', (req, res) => {
             usuario: usuarioDB,
             token: token,
             id: usuarioDB._id,
-            sala: usuarioDB.sala,
+            // sala: usuarioDB.sala,
             menu: obtenerMenu(usuarioDB.role)
         });
 
