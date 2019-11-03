@@ -65,13 +65,14 @@ exports.desconectar = (cliente, io) => {
 exports.mensaje = (cliente, io) => {
     cliente.on('mensaje', (payload, callback) => {
 
-        msg = {
+        pay = {
             de: payload.de,
             cuerpo: payload.cuerpo,
             img: payload.img
         };
-        cliente.to('Juegos').emit('mensaje-nuevo', msg);
-        cliente.emit('mensaje-nuevo', msg);
+        cliente.to(payload.sala).emit('mensaje-nuevo', pay);
+        cliente.emit('mensaje-nuevo', pay);
+
 
         //  io.emit('mensaje-nuevo', payl);
         // console.log('payload', msg);
