@@ -40,7 +40,7 @@ exports.entrarChat = (cliente, io) => {
         };
 
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
-        cliente.emit('mensaje-nuevo', pay);
+        // cliente.emit('mensaje-nuevo', pay);
         // return callback(usuarios);
     });
 };
@@ -68,8 +68,8 @@ exports.mensaje = (cliente, io) => {
         pay = {
             de: payload.de,
             cuerpo: payload.cuerpo,
-            img: payload.img,
-            sala: payload.sala
+            img: payload.img
+                //sala: payload.sala
         };
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
         // cliente.emit('mensaje-nuevo', pay);
