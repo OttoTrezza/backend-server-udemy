@@ -40,7 +40,7 @@ exports.entrarChat = (cliente, io) => {
         };
 
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
-        // cliente.emit('mensaje-nuevo', pay);
+        cliente.emit('mensaje-nuevo', pay);
         // return callback(usuarios);
     });
 };
