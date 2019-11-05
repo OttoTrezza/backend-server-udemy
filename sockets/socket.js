@@ -73,7 +73,7 @@ exports.mensaje = (cliente, io) => {
             sala: payload.sala
         };
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
-        cliente.to(cliente).emit('mensaje-nuevo', pay);
+        cliente.emit('mensaje-nuevo', pay);
         // cliente.emit('mensaje-nuevo', pay);
 
 
