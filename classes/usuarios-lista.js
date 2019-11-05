@@ -29,7 +29,10 @@ class UsuariosLista {
         }
         // Obtener un usuario
     getUsuario(nombre) {
-            return this.lista.find(usuarioLis => usuarioLis.nombre === nombre);
+        return this.lista.find(usuarioLis => usuarioLis.nombre === nombre);
+    }
+    getCliente(id) {
+            return this.lista.find(usuarioLis => usuarioLis.id === id);
         }
         // Obtener usuario en una sala en particular
     getUsuariosEnSala(sala) {
@@ -42,9 +45,9 @@ class UsuariosLista {
             //         // .map(usuarioLis.sala);
         }
         // Borrar Usuario
-    borrarUsuario(nombre) {
+    borrarUsuario(id) {
         const tempUsuario = this.getUsuario(id);
-        this.lista = this.lista.filter(usuarioLis => usuarioLis.nombre !== nombre);
+        this.lista = this.lista.filter(usuarioLis => usuarioLis.id !== id);
         return tempUsuario;
     }
 }

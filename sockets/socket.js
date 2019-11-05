@@ -21,7 +21,8 @@ exports.entrarChat = (cliente, io) => {
         usuarioLis = {
             nombre: payload.nombre,
             sala: payload.sala,
-            img: payload.img
+            img: payload.img,
+            id: cliente.id
         };
         if (!this.usuariosConectados.getUsuario(usuarioLis.nombre)) {
             this.usuariosConectados.agregar(usuarioLis);
