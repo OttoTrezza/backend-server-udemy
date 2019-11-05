@@ -50,7 +50,7 @@ exports.entrarChat = (cliente, io) => {
 exports.desconectar = (cliente, io) => {
     cliente.on('disconnect', () => {
         console.log('Cliente desconectado');
-        usuario2 = this.usuariosConectados.getUsuario(cliente.id);
+        usuario2 = this.usuariosConectados.getCliente(cliente.id);
         sal = 'Juegos';
         this.usuariosConectados.borrarUsuario(cliente.id);
         console.log(cliente.id);
