@@ -8,15 +8,15 @@ const socket = require('../sockets/socket');
 class Server {
 
     constructor() {
-            this.app = express();
-            this.port = process.env.PORT;
-            this.httpServer = new http.Server(this.app);
-            this.io = socketIO(this.httpServer); // sacar segundo parametro..Options
-            this.escucharSockets();
-        }
-        // static get instance() {
-        //     return this._instance || (this._instance = new this());
-        // }
+        this.app = express();
+        this.port = '3000';
+        this.httpServer = new http.Server(this.app);
+        this.io = socketIO(this.httpServer); // sacar segundo parametro..Options
+        this.escucharSockets();
+    }
+    static get instance() {
+        return this._instance || (this._instance = new this());
+    }
 
     escucharSockets() {
             console.log('Escuchando conexiones - sockets');
@@ -51,7 +51,7 @@ class Server {
     //     this.app.use(express.static(publicPath));
     // }
     start(callback) {
-        this.httpServer.listen(this.port, callback);
+        this.app.listen(this.port, callback);
         //  this.publicFolder();
     }
 }
