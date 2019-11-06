@@ -9,7 +9,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = '3000';
+        this.port = process.env.port;
         this.httpServer = new http.Server(this.app);
         this.io = socketIO(this.httpServer); // sacar segundo parametro..Options
         this.escucharSockets();
@@ -52,6 +52,7 @@ class Server {
     // }
     start(callback) {
         this.app.listen(this.port, callback);
+        console.log('server.js start', this.port);
         //  this.publicFolder();
     }
 }
