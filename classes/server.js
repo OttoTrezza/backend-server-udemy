@@ -25,19 +25,19 @@ class Server {
 
                 console.log('Cliente conectado', cliente.id);
                 // Conectar usuario
-                socket.conectarCliente(cliente, io);
+                socket.conectarCliente(cliente);
                 // Entrar chat
-                socket.entrarChat(cliente, io);
+                socket.entrarChat(cliente);
                 // Configurar usuario
-                socket.configurarUsuario(cliente, io);
+                socket.configurarUsuario(cliente);
                 // Obtener usuarios activos
-                socket.obtenerUsuarios(cliente, io);
+                socket.obtenerUsuarios(cliente);
                 // Obtener salas activas
-                socket.obtenerSalas(cliente, io);
+                socket.obtenerSalas(cliente);
                 // Mensajes
-                socket.mensaje(cliente, io);
+                socket.mensaje(cliente);
                 // Desconectar
-                socket.desconectar(cliente, io);
+                socket.desconectar(cliente);
                 //   cliente.on('disconect', () => {
                 //        console.log('Cliente Desconectado');
                 //    });

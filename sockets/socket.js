@@ -1,10 +1,9 @@
 var usuarios_lista = require('../classes/usuarios-lista');
-var socketIO = require('socket.io');
 var io = require('socket.io');
 
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 
-exports.conectarCliente = (cliente, io) => {
+exports.conectarCliente = (cliente) => {
     // console.log('cliente', cliente);
     cliente.on('connect', () => {
         // console.log('clienteID', cliente.id);
@@ -15,7 +14,7 @@ exports.conectarCliente = (cliente, io) => {
         //  res.io.emit('obtener-usuarios', this.usuarios);
     });
 };
-exports.entrarChat = (cliente, io) => {
+exports.entrarChat = (cliente) => {
     cliente.on('entrarChat', (payload) => {
         // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
         usuarioLis = {
@@ -31,8 +30,11 @@ exports.entrarChat = (cliente, io) => {
         usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioLis.sala);
 
         // cliente.to(payload.sala).emit('usuarios-activos', usuarios);
+        salas = this.usuariosConectados.getSalas();
         cliente.emit('usuarios-activos', usuarios);
         cliente.emit('salas-activas', "juegos");
+        cliente.emit('salas', salas);
+        console.log('salas', salas);
         //console.log('Emitido', usuarios);
 
         const pay = {
@@ -47,7 +49,7 @@ exports.entrarChat = (cliente, io) => {
 };
 
 
-exports.desconectar = (cliente, io) => {
+exports.desconectar = (cliente) => {
     cliente.on('disconnect', () => {
         console.log('Cliente desconectado');
         usuario2 = this.usuariosConectados.getCliente(cliente.id);
@@ -63,7 +65,7 @@ exports.desconectar = (cliente, io) => {
 };
 
 // Escuchar mensajes
-exports.mensaje = (cliente, io) => {
+exports.mensaje = (cliente) => {
     cliente.on('mensaje', (payload, callback) => {
 
         pay = {
@@ -100,7 +102,7 @@ exports.mensaje = (cliente, io) => {
 
 
 // Configurar usuario
-exports.configurarUsuario = (cliente, io) => {
+exports.configurarUsuario = (cliente) => {
     cliente.on('configurar-usuario', (payload, callback) => {
         console.log('configUsuar', payload.nombre, payload.sala);
         this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
@@ -117,7 +119,7 @@ exports.configurarUsuario = (cliente, io) => {
 };
 
 // Obtener Usuarios
-exports.obtenerUsuarios = (cliente, io) => {
+exports.obtenerUsuarios = (cliente) => {
     cliente.on('obtener-usuarios', (pay, callback) => {
         usuarios = this.usuariosConectados.getUsuariosEnSala(pay);
         cliente.to(pay).emit('usuarios-activos', usuarios);
@@ -128,7 +130,7 @@ exports.obtenerUsuarios = (cliente, io) => {
 };
 
 // Obtener Salas
-exports.obtenerSalas = (cliente, io) => {
+exports.obtenerSalas = (cliente) => {
     cliente.on('obtener-salas', (callback) => {
         salas = this.usuariosConectados.getSalas();
         cliente.emit('salas-activas', salas);

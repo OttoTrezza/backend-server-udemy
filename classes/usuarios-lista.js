@@ -1,10 +1,12 @@
 class UsuariosLista {
     constructor() {
             this.lista = [];
+            this.salas = [];
         }
         // Agregar un usuario
     agregar(usuarioLis) {
             this.lista.push(usuarioLis);
+            this.salas.push(usuarioLis.sala);
             console.log(this.lista);
             return usuarioLis;
         }
@@ -40,8 +42,11 @@ class UsuariosLista {
 
     }
     getSalas() {
-            return "juegos";
-            //         return this.lista.filter(usuarioLis => usuarioLis.sala);
+            // return "juegos";
+
+            return this.salas;
+            // hacer una peticion a la base de datos"""""
+
             //         // .map(usuarioLis.sala);
         }
         // Borrar Usuario
