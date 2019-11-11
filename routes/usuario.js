@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
                             errors: err
                         });
                     }
+                    // console.log('consultado usuarios');
                     res.status(200).json({
                         ok: true,
                         usuarios: usuarios,
