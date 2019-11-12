@@ -23,6 +23,9 @@ app.get('/coleccion/:tabla/:busqueda', (req, res) => {
         case 'hospitales':
             promesa = buscarHospitales(busqueda, regex);
             break;
+            // case 'salas':
+            //     promesa = buscarSalas(regex);
+            //     break;
         default:
             return res.status(400).json({
                 ok: false,
@@ -53,8 +56,8 @@ app.get('/todo/:busqueda', (req, res) => {
     Promise.all([
             buscarHospitales(busqueda, regex),
             buscarMedicos(busqueda, regex),
-            buscarUsuarios(busqueda, regex),
-            buscarSalas(regex)
+            buscarUsuarios(busqueda, regex)
+            // buscarSalas(regex)
         ])
         .then(respuestas => {
             res.status(200).json({
@@ -62,6 +65,7 @@ app.get('/todo/:busqueda', (req, res) => {
                 hospitales: respuestas[0],
                 medicos: respuestas[1],
                 usuarios: respuestas[2]
+                    // salas: respuestas[3]
             });
 
         });
@@ -114,21 +118,9 @@ function buscarMedicos(busqueda, regex) {
 function buscarUsuarios(busqueda, regex) {
 
     return new Promise((resolve, reject) => {
-        if (busqueda === 'salas') {
-            Usuario.find({}, 'sala')
-                .or([{ 'sala': regex }])
-                .populate('sala')
-                .exec((err, salas) => {
-                    if (err) {
-                        reject('Error al cargar el sala', err);
-                    } else {
-                        resolve(salas);
-                    }
-                });
-        }
         Usuario.find({}, 'nombre email role sala img')
             .or([{ 'nombre': regex }, { 'email': regex }, { 'role': regex }, { 'sala': regex }])
-            // .populate('usuario', ' img')
+            .populate('usuario', ' img')
             .exec((err, usuarios) => {
                 if (err) {
                     reject('Error al cargar el usuario', err);
@@ -139,4 +131,25 @@ function buscarUsuarios(busqueda, regex) {
     });
 }
 
+// function buscarSalas(regex) {
+
+//     return new Promise((resolve, reject) => {
+//         Usuario.find({}, 'sala')
+//             .populate('sala')
+//             .exec((err, salas) => {
+//                 if (err) {
+//                     reject('Error cargando salas');
+//                 } else {
+//                     resolve(salas);
+//                 }
+//                 Usuario.countDocuments({}, (err, conteo) => {
+//                     if (err) {
+//                         console.log('Error cargando salas - conteo');
+//                     }
+//                     this.usuariosConectados.agregarSalas(salas);
+//                     console.log('salasbusqueda', salas, conteo);
+//                 });
+//             });
+//     });
+// }
 module.exports = app;

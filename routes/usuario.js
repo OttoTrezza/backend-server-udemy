@@ -1,4 +1,5 @@
 var express = require('express');
+var app = express();
 var bcrypt = require('bcryptjs');
 
 var jwt = require('jsonwebtoken');
@@ -6,7 +7,7 @@ var jwt = require('jsonwebtoken');
 var mdAutenticacion = require('../middlewares/autenticacion');
 // var SEED = require('../config/config').SEED;
 
-var app = express();
+
 
 var Usuario = require('../models/usuario');
 //=====================================================================
@@ -50,6 +51,8 @@ app.get('/', (req, res) => {
             });
 
 });
+
+
 //=====================================================================
 //Actualizar un  usuario
 //=====================================================================

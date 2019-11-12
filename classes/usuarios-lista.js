@@ -5,10 +5,15 @@ class UsuariosLista {
         }
         // Agregar un usuario
     agregar(usuarioLis) {
-            this.lista.push(usuarioLis);
-            this.salas.push(usuarioLis.sala);
-            console.log(this.lista);
-            return usuarioLis;
+        this.lista.push(usuarioLis);
+        console.log(this.lista);
+        return usuarioLis;
+    }
+    agregarSalas(pala) {
+            //this.salas = null;
+            this.salas += pala;
+            console.log('usuList', this.salas);
+            return this.salas;
         }
         // actualizarNombre(id, nombre, sala) {
         //         for (let usuarioIO of this.lista) {
@@ -42,12 +47,12 @@ class UsuariosLista {
 
     }
     getSalas() {
-            // return "juegos";
-
+        console.log('this.salas-getSalas-usulist', this.salas);
+        return this.salas;
+    }
+    borrarSalas() {
+            this.salas = {};
             return this.salas;
-            // hacer una peticion a la base de datos"""""
-
-            //         // .map(usuarioLis.sala);
         }
         // Borrar Usuario
     borrarUsuario(id) {

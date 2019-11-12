@@ -33,7 +33,7 @@ class Server {
                 // Obtener usuarios activos
                 socket.obtenerUsuarios(cliente);
                 // Obtener salas activas
-                socket.obtenerSalas(cliente);
+                // socket.obtenerSalas(cliente);
                 // Mensajes
                 socket.mensaje(cliente);
                 // Desconectar
