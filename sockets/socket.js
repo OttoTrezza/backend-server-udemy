@@ -11,48 +11,35 @@ exports.conectarCliente = (cliente) => {
 };
 exports.entrarChat = (cliente) => {
     cliente.on('entrarChat', (payload) => {
-        this.usuariosConectados.borrarSalas();
+        //  console.log('wwww', cliente.id);
+        // this.usuariosConectados.borrarSalas();
+        //=====================================================================
+        //Obtener todas las salas
+        //=====================================================================
+        falas = obtenerSalsas(cliente, payload.sala);
+
         // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
         usuarioLis = {
             nombre: payload.nombre,
             sala: payload.sala,
             img: payload.img,
-            id: cliente.id
+            id: cliente.id,
+            salas: falas
         };
+
         if (!this.usuariosConectados.getUsuario(usuarioLis.nombre)) {
             this.usuariosConectados.agregar(usuarioLis);
         }
         cliente.join(usuarioLis.sala);
         usuarios = this.usuariosConectados.getUsuariosEnSala(usuarioLis.sala);
 
-        //=====================================================================
-        //Obtener todas las salas
-        //=====================================================================
-
-        Usuario.find({}, 'sala')
-            .exec((err, salas) => {
-                if (err) {
-                    console.log('Error', err);
-                } else {
-                    // console.log('salasbusqueda', salas);
-                    var i;
-                    let pala;
-
-                    for (i = 0; i < salas.length; i++) {
-                        this.pala = salas[i];
-                        console.log('sala Nº', i, '=', this.pala.sala);
-                        this.usuariosConectados.agregarSalas(this.pala.sala);
-                    }
-                }
-
-            });
 
         // cliente.to(payload.sala).emit('usuarios-activos', usuarios);
-        let lassalas = this.usuariosConectados.getSalas();
-        console.log('lassalas1', this.lassalas);
+
+        console.log('lassalas1', falas);
         cliente.emit('usuarios-activos', usuarios);
-        cliente.emit('salas-activas', "juegos");
-        cliente.emit('salas', this.lassalas);
+        // cliente.emit('salas-activas', "juegos");
+        cliente.emit('salas', falas);
         // console.log('salas', lassalas);
         //console.log('Emitido', usuarios);
 
@@ -86,6 +73,9 @@ exports.desconectar = (cliente) => {
 // Escuchar mensajes
 exports.mensaje = (cliente) => {
     cliente.on('mensaje', (payload, callback) => {
+        if (payload.cuerpo[0] === '#') {
+            rgb();
+        }
 
         pay = {
             de: payload.de,
@@ -124,7 +114,7 @@ exports.mensaje = (cliente) => {
 exports.configurarUsuario = (cliente) => {
     cliente.on('configurar-usuario', (payload, callback) => {
         console.log('configUsuar', payload.nombre, payload.sala);
-        this.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.sala);
+        // this.usuariosConectados.actualizarSalas(cliente.id, );
 
         cliente.emit('usuarios-activos', usuarios);
 
@@ -151,9 +141,42 @@ exports.obtenerUsuarios = (cliente) => {
 // Obtener Salas
 exports.obtenerSalas = (cliente) => {
     cliente.on('obtener-salas', (callback) => {
-        salas = this.usuariosConectados.getSalas();
-        cliente.emit('salas-activas', salas.sala);
+        salas = obtenerSalsas();
+        cliente.emit('salas-activas', salas);
         console.log('Emitido', salas);
         callback = { entro: true };
     });
+};
+
+// rgb servidor a esp
+rgb = (cliente) => {
+    rgb = payload.cuerpo;
+    cliente.to(esp).emit('rgb-servidor-esp', rgb);
+    console.log('Emitido a esp', rgb);
+};
+
+obtenerSalsas = (cliente, sal) => {
+
+    let falas = [];
+    Usuario.find({}, 'sala')
+        .exec((err, salas) => {
+            if (err) {
+                console.log('Error', err);
+            } else {
+                // console.log('salasbusqueda', salas);
+                var i;
+                falas[salas.length] = [];
+                for (i = 0; i < salas.length; i++) {
+                    falas[i] = salas[i].sala;
+                }
+                if (falas) console.log('falas111', falas);
+                this.usuariosConectados.actualizarSalas(cliente.id, falas);
+                usuarios = this.usuariosConectados.getUsuariosEnSala(sal);
+                cliente.emit('usuarios-activos', usuarios);
+                cliente.emit('salas-activas', falas);
+                return falas;
+            }
+
+        });
+
 };

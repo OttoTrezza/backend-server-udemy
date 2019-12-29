@@ -1,7 +1,7 @@
 class UsuariosLista {
     constructor() {
             this.lista = [];
-            this.salas = [];
+
         }
         // Agregar un usuario
     agregar(usuarioLis) {
@@ -9,29 +9,21 @@ class UsuariosLista {
         console.log(this.lista);
         return usuarioLis;
     }
-    agregarSalas(pala) {
-            //this.salas = null;
-            this.salas += pala;
-            console.log('usuList', this.salas);
-            return this.salas;
+    actualizarSalas(id, salas) {
+            let usuarioLis = this.lista.find(usuarioLis => usuarioLis.id === id);
+            for (usuarioLis of this.lista) {
+                if (usuarioLis.id === id) {
+                    usuarioLis.salas = salas;
+                    console.log('actusu', usuarioLis);
+                    break;
+                }
+            }
+            console.log('===== Actualizando salas ====');
+            // console.log(usuarioLis.salas);
         }
-        // actualizarNombre(id, nombre, sala) {
-        //         for (let usuarioIO of this.lista) {
-        //             if (usuarioIO.id === id) {
-        //                 usuarioIO.nombre = nombre;
-        //                 if (!sala)
-        //                     usuarioIO.sala = 'sin-sala';
-        //                 else
-        //                     usuarioIO.sala = sala;
-        //                 break;
-        //             }
-        //         }
-        //         console.log('===== Actualizando usuarioIO ====');
-        //         console.log(this.lista);
-        //     }
         // Obtener lista de usuarios
     getLista() {
-            console.log('getLista');
+            //console.log('getLista');
             return this.lista.filter(usuarioLis => usuarioLis.nombre !== 'sin-nombre');
         }
         // Obtener un usuario
@@ -47,12 +39,12 @@ class UsuariosLista {
 
     }
     getSalas() {
-        console.log('this.salas-getSalas-usulist', this.salas);
-        return this.salas;
+        // console.log('this.salas-getSalas-usulist', this.salas);
+        return '0conchas';
     }
     borrarSalas() {
-            this.salas = {};
-            return this.salas;
+            // this.salas = {};
+            return 'conchas';
         }
         // Borrar Usuario
     borrarUsuario(id) {

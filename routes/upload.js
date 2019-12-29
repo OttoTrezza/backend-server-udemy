@@ -23,7 +23,7 @@ app.put('/:tipo/:id', (req, res) => {
 
 
     //tipos de coleccion
-    var tiposValidos = ['hospitales', 'medicos', 'usuarios'];
+    var tiposValidos = ['hospitales', 'medicos', 'usuarios', 'mensajes'];
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(400).json({
             ok: false,
@@ -191,6 +191,9 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
         });
     }
 
+    if (tipo === 'mensajes') {
+        console.log(nombreArchivo);
+    }
 
 }
 
