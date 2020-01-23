@@ -6,9 +6,11 @@ exports.usuariosConectados = new usuarios_lista.UsuariosLista();
 exports.conectarCliente = (cliente) => {
     // console.log('cliente', cliente);
     cliente.on('connect', () => {
-
+        console.log('ENTRO ESP');
     });
 };
+
+
 exports.entrarChat = (cliente) => {
     cliente.on('entrarChat', (payload) => {
         //  console.log('wwww', cliente.id);
@@ -57,11 +59,11 @@ exports.entrarChat = (cliente) => {
 
 exports.desconectar = (cliente) => {
     cliente.on('disconnect', () => {
-        console.log('Cliente desconectado');
+        console.log('Cliente desconectado', cliente.id);
         usuario2 = this.usuariosConectados.getCliente(cliente.id);
         sal = 'Juegos';
         this.usuariosConectados.borrarUsuario(cliente.id);
-        console.log(cliente.id);
+        //  console.log(cliente.id);
         usuarios = this.usuariosConectados.getUsuariosEnSala(sal);
         cliente.to('Juegos').emit('usuarios-activos', usuarios);
         // this.usuarios = this.usuariosConectados.getLista();
@@ -69,19 +71,28 @@ exports.desconectar = (cliente) => {
 
     });
 };
+// Escuchar mensajes de WebSocket
+exports.WSmensaje = (cliente) => {
+    cliente.on('WStype_TEXT', (payload, callback) => {
+        if (payload[0] === '#') {
+            rgb(cliente, payload);
+        }
+
+        io.to(cliente).emit('WStype_TEXT', payload);
+    });
+};
+
+
 
 // Escuchar mensajes
 exports.mensaje = (cliente) => {
     cliente.on('mensaje', (payload, callback) => {
-        if (payload.cuerpo[0] === '#') {
-            rgb();
-        }
 
         pay = {
             de: payload.de,
             cuerpo: payload.cuerpo,
             img: payload.img,
-            sala: payload.sala
+            // sala: payload.sala
         };
         cliente.to(payload.sala).emit('mensaje-nuevo', pay);
         cliente.emit('mensaje-nuevo', pay);
@@ -93,6 +104,9 @@ exports.mensaje = (cliente) => {
         // return callback(msg);
     });
 };
+
+
+
 
 // Mensaje Nuevo ( SIEMPRE RESPUESTA DEL SERVER!!!)
 
@@ -149,9 +163,9 @@ exports.obtenerSalas = (cliente) => {
 };
 
 // rgb servidor a esp
-rgb = (cliente) => {
+rgb = (cliente, payload) => {
     rgb = payload.cuerpo;
-    cliente.to(esp).emit('rgb-servidor-esp', rgb);
+    cliente.to(cliente).emit('WStype_TEXT', rgb);
     console.log('Emitido a esp', rgb);
 };
 

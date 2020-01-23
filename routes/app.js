@@ -4,7 +4,7 @@ var app = express();
 app.get('/', (req, res, next) => {
     res.status(200).json({
         ok: true,
-        mensaje: 'peticion realizada correctamente1'
+        mensaje: 'peticion realizada correctamente..192.168.0.38:3000'
     });
 });
 // app.use('/public/', express.static('public/'));

@@ -24,10 +24,13 @@ class Server {
             this.io.on('connection', cliente => {
 
                 console.log('Cliente conectado', cliente.id);
+                // console.log('Cliente conectado', cliente);
                 // Conectar usuario
                 socket.conectarCliente(cliente);
-                // Entrar chat
+                // Entrar c*hat
                 socket.entrarChat(cliente);
+                // Entrar chat
+                // socket.entrarChats(cliente);
                 // Configurar usuario
                 socket.configurarUsuario(cliente);
                 // Obtener usuarios activos
