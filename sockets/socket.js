@@ -88,14 +88,16 @@ exports.WSmensaje = (cliente) => {
 exports.mensaje = (cliente) => {
     cliente.on('mensaje', (payload, callback) => {
 
-        pay = {
+        msg = {
             de: payload.de,
             cuerpo: payload.cuerpo,
             img: payload.img,
             // sala: payload.sala
         };
-        cliente.to(payload.sala).emit('mensaje-nuevo', pay);
-        cliente.emit('mensaje-nuevo', pay);
+        cliente.to(payload.sala).emit('mensaje-nuevo', msg);
+        cliente.emit('mensaje-nuevo', msg);
+
+        console.log(payload.de, 'ha enviado esto', payload.cuerpo);
         // cliente.emit('mensaje-nuevo', pay);
 
 
