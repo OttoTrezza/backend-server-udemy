@@ -39,6 +39,8 @@ class Server {
                 // socket.obtenerSalas(cliente);
                 // Mensajes
                 socket.mensaje(cliente);
+                // Mensajes
+                socket.mensajesp(cliente);
                 // Desconectar
                 socket.desconectar(cliente);
                 //   cliente.on('disconect', () => {

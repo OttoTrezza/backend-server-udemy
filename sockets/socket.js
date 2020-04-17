@@ -23,7 +23,7 @@ exports.entrarChat = (cliente) => {
         // console.log('Mensaje recibido P.Nombre, P.Sala', payload.nombre, payload.sala);     
         usuarioLis = {
             nombre: payload.nombre,
-            sala: payload.sala,
+            sala: 'Juegos',
             img: payload.img,
             id: cliente.id,
             salas: falas
@@ -107,7 +107,20 @@ exports.mensaje = (cliente) => {
     });
 };
 
+// Escuchar mensajes
+exports.mensajesp = (cliente) => {
+    cliente.on('mensajesp', (payload, callback) => {
 
+        msg = {
+            de: payload.de,
+            cuerpo: payload.cuerpo
+        };
+        cliente.to(payload.sala).emit('mensajesp-nuevo', msg);
+
+
+        console.log(payload.de, 'ha enviado esto', payload.cuerpo);
+    });
+};
 
 
 // Mensaje Nuevo ( SIEMPRE RESPUESTA DEL SERVER!!!)
