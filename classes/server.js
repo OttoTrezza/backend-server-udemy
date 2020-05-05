@@ -39,6 +39,8 @@ class Server {
                 // socket.obtenerSalas(cliente);
                 // Mensajes
                 socket.mensaje(cliente);
+                socket.frecuencia(cliente);
+                socket.LongPulse(cliente);
                 // Mensajes
                 socket.mensajesp(cliente);
                 // Desconectar

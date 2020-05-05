@@ -1,7 +1,10 @@
 var usuarios_lista = require('../classes/usuarios-lista');
 var Usuario = require('../models/usuario');
+var { ValorControl } = require('../classes/buffer');
 
 exports.usuariosConectados = new usuarios_lista.UsuariosLista();
+
+const valorControl = new ValorControl();
 
 exports.conectarCliente = (cliente) => {
     // console.log('cliente', cliente);
@@ -83,7 +86,30 @@ exports.WSmensaje = (cliente) => {
 };
 
 
+exports.frecuencia = (cliente) => {
+    cliente.on('frecuencia', (payload, callback) => {
+        msg = {
+            de: payload.de,
+            frec: payload.frec,
+            sala: payload.sala
+        };
+        cliente.to(payload.sala).emit('frecuencia', msg);
+        console.log('frecuencia', msg);
 
+    });
+};
+exports.LongPulse = (cliente) => {
+    cliente.on('LongPulse', (payload, callback) => {
+        msg = {
+            de: payload.de,
+            LongP: payload.LongP,
+            sala: payload.sala
+        };
+        cliente.to(payload.sala).emit('LongPulse', msg);
+        console.log('LongPulse', msg);
+
+    });
+};
 // Escuchar mensajes
 exports.mensaje = (cliente) => {
     cliente.on('mensaje', (payload, callback) => {
@@ -107,18 +133,21 @@ exports.mensaje = (cliente) => {
     });
 };
 
+
 // Escuchar mensajes
 exports.mensajesp = (cliente) => {
     cliente.on('mensajesp', (payload, callback) => {
 
+        valorControl.siguiente(payload.cuerpo, payload.cuerpo1, payload.de);
         msg = {
             de: payload.de,
-            cuerpo: payload.cuerpo
+            cuerpo: payload.cuerpo,
+            cuerpo1: payload.cuerpo1
         };
         cliente.to(payload.sala).emit('mensajesp-nuevo', msg);
 
 
-        console.log(payload.de, 'ha enviado esto', payload.cuerpo);
+        console.log(payload.de, 'ha enviado esto', payload.cuerpo, payload.cuerpo1);
     });
 };
 
