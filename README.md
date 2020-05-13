@@ -55,7 +55,7 @@ pasar el puerto a 4200 antes de mandarlo a produccion
 *****/////////
 *****/////////
             LIST TO DO THINGS....
-            Funciona pero no podes volver a entrar!!!
+            Guardar el ultimo valor de frecuencia y LongPulse, para setear la app
 *****/////////
 *****/////////
 *****/////////
