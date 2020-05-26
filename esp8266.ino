@@ -7,9 +7,11 @@
 #include <string>
 #include <sstream>
 /*****************************/
-
+   
 /*****************************/
-#define LED_RED           14 
+#define M1_marcha         12 
+#define M1_dir            13 
+
 #define PIN_D1            4         // Pin D1 mapped to pin GPIO4 of ESP8266
 #define PIN_D2            5         // Pin D1 mapped to pin GPIO5 of ESP8266
 
@@ -48,16 +50,19 @@ volatile unsigned long rotationTime2Rb = 20;
 volatile unsigned long ancho;
 volatile unsigned long ancho1;
 
-volatile int debounceCounter1;
-volatile int debounceCounter2;
-volatile int frecuencia = 120;
-volatile int LongPulse;
+volatile int debounceCounter1 = 0;
+volatile int debounceCounter2 = 0;
+volatile int frecuencia = 200;
+volatile int LongPulse = 50;
 volatile int LongPulse1;
 volatile int LongPulse2;
 volatile int conta2;
 
 volatile bool activeState1 = false;
 volatile bool activeState2 = false;
+volatile bool paso = false;
+volatile int dir = 1;
+volatile int a1, b1, a2, b2;
 volatile int i = 1;
 volatile int i1 = 1;
 void ICACHE_RAM_ATTR detectRotation1(void)
@@ -83,19 +88,14 @@ void ICACHE_RAM_ATTR TimerHandler()
      
      // min time between pulses has passe
       i = i * (-1);
-       int a1, b1;
       if( i <= 0 ){   
-        a1 = rotationTime1 + rotationTime1R;
-        b1 = rotationTime1R;
-        Serial.println( "rotationTime1 ms = " + String(a1 * TIMER_INTERVAL_MS) + ", LongPulse1 = " + String(rotationTime1R)  );      
-        rotationTime1Rb = rotationTime1;
+        a1 = rotationTime1 ;   
         }else {
-        a1 = rotationTime1Rb + rotationTime1;
-        b1 = rotationTime1;
-        Serial.println( "rotationTime1 ms = " + String(a1 * TIMER_INTERVAL_MS) + ", LongPulse1 = " + String(rotationTime1)  );
-        rotationTime1R = rotationTime1;
-        }      
-    
+         // Serial.println( "rotationTime1 = " + String( rotationTime1 ) + ", LongPulse1 = " + String(b1);
+        b1 = ((rotationTime1 * 100) / (rotationTime1 + a1)) ; // escribo el porcentaje, el ancho del pulso. Lo guardo en b1.        
+        a1 = a1 + rotationTime1 ; // describo la frecuencia, como la suma de los dos períodos Lo guardo en a1
+        Serial.println( "Frecuencia1 ms = " + String( a1 * TIMER_INTERVAL_MS) + ", LongPulse1 = " + String(b1) );
+               
       StaticJsonDocument<900> doc1;
       String JSON1;
 
@@ -106,11 +106,18 @@ void ICACHE_RAM_ATTR TimerHandler()
       doc1["sala"] = "Juegos";
       serializeJson(doc1, JSON1);
       client.sendJSON("mensajesp", JSON1);      
-
+        }    
       rotationTime1 = 0;
       debounceCounter1 = 0;
-    }// else debounceCounter1++;
- }
+   }
+    else
+      debounceCounter1++;
+  }
+  else
+  {
+    debounceCounter1++;    
+  }
+ 
 
 /*******************************/
   
@@ -125,21 +132,15 @@ if ( activeState2 )
     {
       //min time between pulses has passed
       i1 = i1 * (-1);
-      int a2, b2;
       if( i1 <= 0 )
       {   
-        a2 = rotationTime2 + rotationTime2R;
-        b2 = rotationTime2R;
-        Serial.println( "rotationTime2 ms = " + String(rotationTime2 * TIMER_INTERVAL_MS) + ", LongPulse2 = " + String(rotationTime2R)  );      
-        rotationTime2Rb = rotationTime2;       
+        a2 = rotationTime2 ;
       }else 
        {
-        a2 = rotationTime2Rb + rotationTime2;
-        b2 = rotationTime2;
-        Serial.println( "rotationTime2 ms = " + String(a2 * TIMER_INTERVAL_MS) + ", LongPulse2 = " + String(rotationTime2)  );
-        rotationTime2R = rotationTime2;        
-       } 
-      
+       b2 = ((rotationTime2 * 100) /(rotationTime2 + a2)) ; // escribo el porcentaje, el ancho del pulso. Lo guardo en b2.        
+       a2 = a2 + rotationTime2 ; // describo la frecuencia, como la suma de los dos períodos Lo guardo en a2.
+       Serial.println( "Frecuencia2 ms = " + String(a2 * TIMER_INTERVAL_MS) + ", LongPulse2 = " + String(b2)  );              
+    
       StaticJsonDocument<900> doc2;
       String JSON2;
       doc2["de"] = "ignacio2";
@@ -150,18 +151,24 @@ if ( activeState2 )
       
       serializeJson(doc2, JSON2);
       client.sendJSON("mensajesp", JSON2);
-      
+       } 
       rotationTime2 = 0;
       debounceCounter2 = 0;
-    } // else debounceCounter2++;
- }
+    }
+    else
+      debounceCounter2++;
+  }
+  else
+  {
+    debounceCounter2++;
+  }
   
 /*******************************/
        
 if (rotationTime1 >= 5000)
   {
    // If idle, set RPM to 0, don't increase rotationTime
-   Serial.println("rotationTime1 = " + String(rotationTime1) );
+//   Serial.println("rotationTime1 = " + String(rotationTime1) );
    rotationTime1 = 0;
    rotationTime1R = rotationTime1;
   }else
@@ -174,7 +181,7 @@ if (rotationTime1 >= 5000)
 if (rotationTime2 >= 5000)
   {
    // If idle, set RPM to 0, don't increase rotationTime
-   Serial.println( "rotationTime2 = " + String(rotationTime2) );
+//   Serial.println( "rotationTime2 = " + String(rotationTime2) );
    rotationTime2 = 0;
    rotationTime2R = rotationTime2;
   }else
@@ -183,23 +190,38 @@ if (rotationTime2 >= 5000)
    }
 
 /*******************************/
-
-ancho1 = (LongPulse * frecuencia) / 100 ; // porcente en milisegundos del tiempo que est on y of
-ancho = frecuencia - ancho1;
-if (conta2 >= ancho ) 
-  { 
-  //  Serial.println( "conta2 = " + String(conta2) );
-  conta2 = 0;
-  digitalWrite(LED_RED, HIGH);
-  }else if(conta2 >= ancho1) 
+ if (dir > 0) {
+  if (conta2 >= dir && paso == false ) 
     { 
-     digitalWrite(LED_RED, LOW);
-     // Serial.println( "conta2 = " + String(conta2) );
-    }
-      conta2++;    
-      debounceCounter1++;
-      debounceCounter2++;
+    paso = true;
+    conta2 = 0;
+    digitalWrite(M1_marcha, LOW);
+    digitalWrite(M1_dir, HIGH);
+    }else if(conta2 >= (100 - dir) && paso == true) 
+      {   
+      digitalWrite(M1_marcha, LOW);  
+      digitalWrite(M1_dir, LOW);
+      paso = false;  
+      } 
+  }elseif (dir < 0) {
+  if (conta2 >= dir && paso == false ) 
+    { 
+    paso = true;
+    conta2 = 0;
+    digitalWrite(M1_marcha, HIGH);
+    digitalWrite(M1_dir, LOW);
+    }else if(conta2 >= (100 - dir) && paso == true) 
+      {   
+      digitalWrite(M1_marcha, LOW);
+      digitalWrite(M1_dir, LOW);
+      paso = false;  
+      } 
+  }   
+     
+ conta2++;
 }
+
+
 /*****************************/
 
 /*****************************/
@@ -265,6 +287,7 @@ void setup()
 void loop() 
   {
    delay(100); 
+   
    /*while (!client.connected())
     {
     detachInterrupt(digitalPinToInterrupt(interruptPin1));    
@@ -299,6 +322,22 @@ void loop()
       Serial.print(nombre);
       Serial.print(" says: ");
       Serial.println(mensaje);
+      }
+      
+    if (event == "dir") 
+      {
+      String dirr = doc3[1]["cuerpo"]; 
+      String nombre = doc3[1]["de"];  
+      dir = dirr.toInt();
+      Serial.print(" user ");
+      Serial.print(nombre);
+      Serial.print(" says: ");
+      Serial.println(dir);
+      
+      if (dir == 0){
+        digitalWrite(M1_marcha, LOW);
+        digitalWrite(M1_dir, LOW);    
+        }   
       }
     
     if (event == "frecuencia") 
