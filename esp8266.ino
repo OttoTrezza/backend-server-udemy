@@ -6,18 +6,24 @@
 #include <ArduinoJson.h>
 #include <string>
 #include <sstream>
+
 /*****************************/
    
 /*****************************/
-#define M1_marcha         12 
-#define M1_dir            13 
+#define M1_marcha         4 
+#define M1_dir            5 
+#define M2_a              12 
+#define M2_b              13
+#define en1               14
+// #define en2               4
 
-#define PIN_D1            4         // Pin D1 mapped to pin GPIO4 of ESP8266
-#define PIN_D2            5         // Pin D1 mapped to pin GPIO5 of ESP8266
+// #define PIN_D1            16         // Pin D1 mapped to pin GPIO4 of ESP8266
+// #define PIN_D2            5         // Pin D1 mapped to pin GPIO5 of ESP8266
 
+/*
 unsigned int interruptPin1 = PIN_D1;
 unsigned int interruptPin2 = PIN_D2;
-
+*/
 #define TIMER_INTERVAL_MS         1
 #define DEBOUNCING_INTERVAL_MS    40
 
@@ -61,10 +67,12 @@ volatile int conta2;
 volatile bool activeState1 = false;
 volatile bool activeState2 = false;
 volatile bool paso = false;
-volatile int dir = 1;
+volatile int dir = 0;
+volatile int sen = 0;
 volatile int a1, b1, a2, b2;
 volatile int i = 1;
 volatile int i1 = 1;
+/*
 void ICACHE_RAM_ATTR detectRotation1(void)
 {
   activeState1 = true;
@@ -118,9 +126,9 @@ void ICACHE_RAM_ATTR TimerHandler()
     debounceCounter1++;    
   }
  
-
+*/
 /*******************************/
-  
+  /*
 if ( activeState2 )
   {
      
@@ -162,9 +170,9 @@ if ( activeState2 )
   {
     debounceCounter2++;
   }
-  
+  */
 /*******************************/
-       
+       /*
 if (rotationTime1 >= 5000)
   {
    // If idle, set RPM to 0, don't increase rotationTime
@@ -175,9 +183,9 @@ if (rotationTime1 >= 5000)
    {
    rotationTime1++;
    }
-  
+  */
 /*******************************/
-  
+  /*
 if (rotationTime2 >= 5000)
   {
    // If idle, set RPM to 0, don't increase rotationTime
@@ -190,36 +198,40 @@ if (rotationTime2 >= 5000)
    }
 
 /*******************************/
- if (dir > 0) {
-  if (conta2 >= dir && paso == false ) 
+
+/* if (dir > 0) {
+  if (conta2 >= (100 - dir) && paso == false ) 
     { 
     paso = true;
     conta2 = 0;
     digitalWrite(M1_marcha, LOW);
     digitalWrite(M1_dir, HIGH);
-    }else if(conta2 >= (100 - dir) && paso == true) 
+    //Serial.println( "M1_marcha = " + String(M1_marcha) + ", M1_dir = " + String(M1_dir)  );           
+    }else if(conta2 >= dir && paso == true) 
       {   
       digitalWrite(M1_marcha, LOW);  
       digitalWrite(M1_dir, LOW);
+    //  Serial.println( "M1_marcha = " + String(M1_marcha) + ", M1_dir = " + String(M1_dir)  ); 
       paso = false;  
       } 
-  }elseif (dir < 0) {
-  if (conta2 >= dir && paso == false ) 
+  }else if (dir < 0) {
+  if (conta2 >= (100 + dir) && paso == false ) 
     { 
     paso = true;
     conta2 = 0;
     digitalWrite(M1_marcha, HIGH);
     digitalWrite(M1_dir, LOW);
-    }else if(conta2 >= (100 - dir) && paso == true) 
+    }else if(conta2 >= (-dir) && paso == true) 
       {   
       digitalWrite(M1_marcha, LOW);
       digitalWrite(M1_dir, LOW);
       paso = false;  
       } 
   }   
-     
- conta2++;
-}
+  
+   */  
+ // conta2++;
+// }
 
 
 /*****************************/
@@ -228,10 +240,20 @@ if (rotationTime2 >= 5000)
 
 void setup() 
   {
-   pinMode(interruptPin1, INPUT);  
-   pinMode(interruptPin2, INPUT); 
-   pinMode(LED_RED, OUTPUT);
-   digitalWrite(LED_RED, LOW);
+
+   pinMode(M1_dir, OUTPUT);  
+   pinMode(M1_marcha, OUTPUT);
+   pinMode(M2_a, OUTPUT);  
+   pinMode(M2_b, OUTPUT);
+   pinMode(en1, OUTPUT);
+  // pinMode(en2, OUTPUT);
+   digitalWrite(M1_marcha, LOW);
+   digitalWrite(M1_dir, LOW);
+   digitalWrite(en1, LOW);
+//   digitalWrite(en2, LOW);
+   
+   // set
+  
   
 /*****************************/
 
@@ -269,31 +291,26 @@ void setup()
    if (client.connected())
    {
     client.sendJSON("entrarChat",JSON);
+    digitalWrite(en1, HIGH);
+  // digitalWrite(en2, HIGH);
    }
   
 /*****************************/
-
+/*
    if (ITimer.attachInterruptInterval(TIMER_INTERVAL_MS * 1000, TimerHandler ))
      Serial.println("Starting  ITimer OK, millis() = " + String(millis()));
    else
      Serial.println("Can't set ITimer. Select another freq. or interval");
-
+*/
    // Assumming the interruptPin1 will go LOW
-   attachInterrupt(digitalPinToInterrupt(interruptPin1), detectRotation1, CHANGE);  
-   attachInterrupt(digitalPinToInterrupt(interruptPin2), detectRotation2, CHANGE); 
+ //  attachInterrupt(digitalPinToInterrupt(interruptPin1), detectRotation1, CHANGE);  
+ //  attachInterrupt(digitalPinToInterrupt(interruptPin2), detectRotation2, CHANGE); 
   
 }
+void loop() {
 
-void loop() 
-  {
-   delay(100); 
-   
-   /*while (!client.connected())
-    {
-    detachInterrupt(digitalPinToInterrupt(interruptPin1));    
-    detachInterrupt(digitalPinToInterrupt(interruptPin2));
-    }*/
-  
+   delay(100);
+    
    String json = client.on();
     
    if (json.length() > 0) 
@@ -324,9 +341,9 @@ void loop()
       Serial.println(mensaje);
       }
       
-    if (event == "dir") 
+    if (event == "mensajedir-nuevo") 
       {
-      String dirr = doc3[1]["cuerpo"]; 
+      String dirr = doc3[1]["dir"]; 
       String nombre = doc3[1]["de"];  
       dir = dirr.toInt();
       Serial.print(" user ");
@@ -334,12 +351,48 @@ void loop()
       Serial.print(" says: ");
       Serial.println(dir);
       
-      if (dir == 0){
+      if (-4 <= dir <= 4)
+        {
         digitalWrite(M1_marcha, LOW);
         digitalWrite(M1_dir, LOW);    
-        }   
+        }  
+      if (dir > 4) 
+      {
+      digitalWrite(M1_marcha, HIGH);
+      digitalWrite(M1_dir, LOW);
+      }else if(dir < -4) 
+        {   
+        digitalWrite(M1_marcha, LOW);  
+        digitalWrite(M1_dir, HIGH);
+        } 
+     }
+      
+ if (event == "mensajesen-nuevo") 
+      {
+      String senn = doc3[1]["sen"]; 
+      String nombre = doc3[1]["de"];  
+      sen = senn.toInt();
+      Serial.print(" user ");
+      Serial.print(nombre);
+      Serial.print(" says: ");
+      Serial.println(sen);
+      
+      if (-4 <= sen <= 4)
+        {
+        digitalWrite(M2_a, LOW);
+        digitalWrite(M2_b, LOW);    
+        }  
+      if (sen > 4) 
+        {
+        digitalWrite(M2_a, LOW);
+        digitalWrite(M2_b, HIGH);    
+        }else if(sen < -4) 
+          {   
+          digitalWrite(M2_a, HIGH);  
+          digitalWrite(M2_b, LOW);
+          } 
       }
-    
+    /*
     if (event == "frecuencia") 
       {   
       String de = doc3[1]["de"];  
@@ -357,7 +410,7 @@ void loop()
       LongPulse = LongPulsee.toInt();
       Serial.println(LongPulse);   
     }
-   
+   */
     if (event == "usuarios-activos") {
       String usuario1 = doc3[1][""]; // true || false
       String usuario2 = doc3[1][""]; 
