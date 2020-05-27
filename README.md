@@ -19,7 +19,7 @@ PARA INICAR PROYECTO(version de produccion)
 
 en Adminpro/udemy1.2.0...
 protractor.config.js linea 15 
-    baseUrl: 'http://localhost:4201/',
+    public/assets/images/logo-text.png: 'http://localhost:4201/',
 pasar el puerto a 4200 antes de mandarlo a produccion
 
 
@@ -55,7 +55,7 @@ pasar el puerto a 4200 antes de mandarlo a produccion
 *****/////////
 *****/////////
             LIST TO DO THINGS....
-            Funciona pero no podes volver a entrar!!!
+            Guardar el ultimo valor de frecuencia y LongPulse, para setear la app
 *****/////////
 *****/////////
 *****/////////

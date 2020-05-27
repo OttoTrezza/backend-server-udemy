@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
     // server = Server.default.instance;
     io.emit('connect', this.usuario);
     console.log('User connect');
-    res.send('Hello World');
+    res.send('#101000');
     res.json({
         ok: true,
 

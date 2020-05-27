@@ -8,14 +8,15 @@ const socket = require('../sockets/socket');
 class Server {
 
     constructor() {
+        this._intance = Server;
         this.app = express();
-        this.port = process.env.PORT;
-        this.httpServer = new http.Server(this.app);
+        this.port = process.env.port;
+        this.httpServer = http.createServer(this.app);
         this.io = socketIO(this.httpServer); // sacar segundo parametro..Options
         this.escucharSockets();
     }
     static get instance() {
-        return this._instance || (this._instance = new this());
+        return this._intance || (this._intance = new this());
     }
 
     escucharSockets() {
@@ -23,20 +24,27 @@ class Server {
             this.io.on('connection', cliente => {
 
                 console.log('Cliente conectado', cliente.id);
+                // console.log('Cliente conectado', cliente);
                 // Conectar usuario
-                socket.conectarCliente(cliente, io);
+                socket.conectarCliente(cliente);
+                // Entrar c*hat
+                socket.entrarChat(cliente);
                 // Entrar chat
-                socket.entrarChat(cliente, io);
+                // socket.entrarChats(cliente);
                 // Configurar usuario
-                socket.configurarUsuario(cliente, io);
+                socket.configurarUsuario(cliente);
                 // Obtener usuarios activos
-                socket.obtenerUsuarios(cliente, io);
+                socket.obtenerUsuarios(cliente);
                 // Obtener salas activas
-                socket.obtenerSalas(cliente, io);
+                // socket.obtenerSalas(cliente);
                 // Mensajes
-                socket.mensaje(cliente, io);
+                socket.mensaje(cliente);
+                socket.frecuencia(cliente);
+                socket.LongPulse(cliente);
+                // Mensajes
+                socket.mensajesp(cliente);
                 // Desconectar
-                socket.desconectar(cliente, io);
+                socket.desconectar(cliente);
                 //   cliente.on('disconect', () => {
                 //        console.log('Cliente Desconectado');
                 //    });
@@ -52,6 +60,7 @@ class Server {
     // }
     start(callback) {
         this.httpServer.listen(this.port, callback);
+        console.log('server.js start', this.port);
         //  this.publicFolder();
     }
 }

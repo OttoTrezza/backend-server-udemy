@@ -1,30 +1,29 @@
 class UsuariosLista {
     constructor() {
             this.lista = [];
+
         }
         // Agregar un usuario
     agregar(usuarioLis) {
-            this.lista.push(usuarioLis);
-            console.log(this.lista);
-            return usuarioLis;
+        this.lista.push(usuarioLis);
+        console.log(this.lista);
+        return usuarioLis;
+    }
+    actualizarSalas(id, salas) {
+            let usuarioLis = this.lista.find(usuarioLis => usuarioLis.id === id);
+            for (usuarioLis of this.lista) {
+                if (usuarioLis.id === id) {
+                    usuarioLis.salas = salas;
+                    console.log('actusu', usuarioLis);
+                    break;
+                }
+            }
+            console.log('===== Actualizando salas ====');
+            // console.log(usuarioLis.salas);
         }
-        // actualizarNombre(id, nombre, sala) {
-        //         for (let usuarioIO of this.lista) {
-        //             if (usuarioIO.id === id) {
-        //                 usuarioIO.nombre = nombre;
-        //                 if (!sala)
-        //                     usuarioIO.sala = 'sin-sala';
-        //                 else
-        //                     usuarioIO.sala = sala;
-        //                 break;
-        //             }
-        //         }
-        //         console.log('===== Actualizando usuarioIO ====');
-        //         console.log(this.lista);
-        //     }
         // Obtener lista de usuarios
     getLista() {
-            console.log('getLista');
+            //console.log('getLista');
             return this.lista.filter(usuarioLis => usuarioLis.nombre !== 'sin-nombre');
         }
         // Obtener un usuario
@@ -40,9 +39,12 @@ class UsuariosLista {
 
     }
     getSalas() {
-            return "juegos";
-            //         return this.lista.filter(usuarioLis => usuarioLis.sala);
-            //         // .map(usuarioLis.sala);
+        // console.log('this.salas-getSalas-usulist', this.salas);
+        return '0conchas';
+    }
+    borrarSalas() {
+            // this.salas = {};
+            return 'conchas';
         }
         // Borrar Usuario
     borrarUsuario(id) {
