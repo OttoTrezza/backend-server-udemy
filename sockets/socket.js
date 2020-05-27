@@ -151,6 +151,28 @@ exports.mensajesp = (cliente) => {
     });
 };
 
+// Escuchar dir
+exports.dir = (cliente) => {
+    cliente.on('dir', (payload, callback) => {
+        msg = {
+            de: payload.de,
+            dir: payload.dir
+        };
+        cliente.to(payload.sala).emit('mensajedir-nuevo', msg);
+        console.log(msg.de, 'ha enviado est direccion', msg.dir);
+    });
+};
+// Escuchar sen
+exports.sen = (cliente) => {
+    cliente.on('sen', (payload, callback) => {
+        msg = {
+            de: payload.de,
+            sen: payload.sen
+        };
+        cliente.to(payload.sala).emit('mensajesen-nuevo', msg);
+        console.log(msg.de, 'ha enviado est sentido', msg.sen);
+    });
+};
 
 // Mensaje Nuevo ( SIEMPRE RESPUESTA DEL SERVER!!!)
 

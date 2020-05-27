@@ -41,8 +41,12 @@ class Server {
                 socket.mensaje(cliente);
                 socket.frecuencia(cliente);
                 socket.LongPulse(cliente);
-                // Mensajes
+                // Mensajesp
                 socket.mensajesp(cliente);
+                // dir
+                socket.dir(cliente);
+                // sen
+                socket.sen(cliente);
                 // Desconectar
                 socket.desconectar(cliente);
                 //   cliente.on('disconect', () => {
